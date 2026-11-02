@@ -2,6 +2,8 @@
 
 English HOME Menu and System Settings for Japanese-region 3DS consoles, using Luma3DS's LayeredFS. No region change, nothing written to system memory, and fully removable by deleting a folder.
 
+> **Project status:** This is a personal project. I made it to get English menus on my own Japanese 3DS and published it in case it's useful to anyone else with the same console. It's released as is: it already does what I need, so I'm not planning any further updates or support. You're welcome to fork it and build on it under the GPLv3.
+
 This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card.
 
 ## What gets translated
@@ -80,7 +82,7 @@ If an app won't start and you can't reach a computer, hold **SELECT** while powe
 - **Notifications can't be translated.** LayeredFS needs to find five file-system functions in an app's code. The Japanese Notifications app has no general "mount archive" function (it only ever opens one fixed archive), so Luma can't hook it. With a translation folder present, Luma's loader halts the console when the app opens. The table is kept in `translations/notifications.py` for reference, but the build skips it.
 - **Notification messages stay Japanese anyway.** StreetPass results, SpotPass news and game announcements are stored text written by the sender, not part of any app.
 - **The Language screen** shows the language names in English, but Japanese is still the only language a Japanese system offers.
-- **Some labels are shortened to fit** (for example "Conn. 1" for Connection 1, "Format System", "Manage Data"). If something wraps or gets cut off on your console, open an issue with a photo.
+- **Some labels are shortened to fit** (for example "Conn. 1" for Connection 1, "Format System", "Manage Data"). If something wraps or gets cut off on your console, shorten it in `translations/` and rebuild (see [Editing translations](#editing-translations)).
 - **Other system apps** (Friend List, Game Notes, etc.) aren't translated. Check whether one is patchable before trying:
 
   ```
@@ -103,7 +105,7 @@ The tables are in `translations/`, keyed by string number. Strings use a display
 
 This project was built with [Claude](https://claude.ai), Anthropic's AI assistant. Claude wrote the build tools, the validator and the Luma compatibility checker, translated the Japanese text into English, and drafted this README. I directed the project, made the design decisions, and tested every change on my own Japanese New 3DS. That's how the problem labels, the System Settings font-size issue and the Notifications crash were found and fixed.
 
-The translations are AI-generated and have only been checked on screen, not reviewed line by line by a fluent Japanese speaker. Some wording may be off, especially in screens I rarely see. If you spot a mistranslation, please open an issue.
+The translations are AI-generated and have only been checked on screen, not reviewed line by line by a fluent Japanese speaker. Some wording may be off, especially in screens I rarely see. If you spot a mistranslation, you can fix it in `translations/` and rebuild.
 
 ## Credits
 
