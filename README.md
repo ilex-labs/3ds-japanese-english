@@ -99,6 +99,12 @@ The tables are in `translations/`, keyed by string number. Strings use a display
 - `tools/lfs_check.py` is a port of Luma3DS's LayeredFS function search, used to predict whether Luma can patch an app.
 - `build.py` ties it together, validates, and writes the `luma/titles/...` tree.
 
+## AI disclosure
+
+This project was built with [Claude](https://claude.ai), Anthropic's AI assistant. Claude wrote the build tools, the validator and the Luma compatibility checker, translated the Japanese text into English, and drafted this README. I directed the project, made the design decisions, and tested every change on my own Japanese New 3DS. That's how the problem labels, the System Settings font-size issue and the Notifications crash were found and fixed.
+
+The translations are AI-generated and have only been checked on screen, not reviewed line by line by a fluent Japanese speaker. Some wording may be off, especially in screens I rarely see. If you spot a mistranslation, please open an issue.
+
 ## Credits
 
 - [Luma3DS](https://github.com/LumaTeam/Luma3DS) for LayeredFS. `tools/lfs_check.py` ports its symbol search.
