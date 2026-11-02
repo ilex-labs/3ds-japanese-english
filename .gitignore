@@ -1,0 +1,18 @@
+# Never commit Nintendo files: your dumps or anything built from them
+dumps/
+out/
+*.app
+*.cia
+*.cxi
+*.cfa
+*.bin
+*.msbt
+*.darc
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+._*
