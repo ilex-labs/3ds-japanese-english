@@ -1,5 +1,6 @@
 # Line endings the launchers and GodMode9 need, whatever the checkout OS
 *.bat      text eol=crlf
+*.command  text eol=lf
 *.gm9      text eol=lf
 *.py       text eol=lf
 
