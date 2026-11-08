@@ -1,5 +1,5 @@
 # Never commit Nintendo files: your dumps or anything built from them
-dumps/
+dumps*/
 out/
 *.app
 *.cia
