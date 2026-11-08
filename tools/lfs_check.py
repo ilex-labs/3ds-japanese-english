@@ -87,7 +87,12 @@ def main(paths):
             print(f'{path}: {e}')
             ok_all = False
             continue
-        res = check(n)
+        try:
+            res = check(n)
+        except (NcchError, struct.error):
+            print(f'{path}: {n.title_id:016X} {n.product_code}: no program code '
+                  f'(manual or data content), skipped')
+            continue
         missing = [k for k, v in res.items() if v is None]
         verdict = 'OK - LayeredFS should work' if not missing else 'NOT SUPPORTED - Luma will halt on launch'
         print(f'{path}: {n.title_id:016X} {n.product_code}: {verdict}')
