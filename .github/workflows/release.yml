@@ -1,18 +1,31 @@
-# Builds the release zip and attaches it to a draft release. Start it from
-# the Actions tab (Release > Run workflow): the version comes from VERSION
-# in build.py, and the tag (v1.1, v1.2, ...) is created when the draft is
-# published. Pushing a version tag also starts it. Test the zip, then
-# publish the draft on GitHub. The zip is made with git archive, so it
-# holds only committed files: no dumps and nothing built from them.
+# Builds the release zip and puts it on a draft release, ready to test and
+# publish on GitHub. The version comes from VERSION in build.py, and the
+# tag (v1.1, v1.2, ...) is created when the draft is published.
+#
+# It runs by itself when build.py or a release-notes file changes on main:
+#   - no release for this version yet: creates the draft
+#   - a draft already exists: updates its zip and notes
+#   - already published: does nothing
+# It can also be started from the Actions tab (Release > Run workflow).
+# Release notes come from .github/release-notes/v<version>.md if it exists.
+#
+# The zip is made with git archive, so it holds only committed files: no
+# dumps and nothing built from them.
 name: Release
 
 on:
   workflow_dispatch:
   push:
+    branches: [main]
+    paths: ['build.py', '.github/release-notes/**']
     tags: ['v*']
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -26,23 +39,37 @@ jobs:
         run: |
           version=$(python3 -c "import build; print(build.VERSION)")
           tag="v$version"
-          if [ "$GITHUB_EVENT_NAME" = push ] && [ "$GITHUB_REF_NAME" != "$tag" ]; then
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "$tag" ]; then
             echo "Tag is $GITHUB_REF_NAME but build.py says VERSION = '$version'"
             exit 1
           fi
-          if [ "$GITHUB_EVENT_NAME" != push ] && gh release view "$tag" > /dev/null 2>&1; then
-            echo "A release for $tag already exists. Raise VERSION in build.py first."
-            exit 1
-          fi
+          # true = draft, false = published, empty = no release yet
+          # (gh release list includes drafts; gh release view doesn't)
+          state=$(gh release list --limit 100 --json tagName,isDraft \
+                  --jq ".[] | select(.tagName == \"$tag\") | .isDraft")
           echo "TAG=$tag" >> "$GITHUB_ENV"
+          if [ "$state" = false ] || { [ "$state" = true ] && [ "$GITHUB_REF_TYPE" = tag ]; }; then
+            if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] && [ "$state" = false ]; then
+              echo "$tag is already published. Raise VERSION in build.py first."
+              exit 1
+            fi
+            echo "Nothing to do: a release for $tag already exists."
+            echo "MODE=skip" >> "$GITHUB_ENV"
+          elif [ "$state" = true ]; then
+            echo "MODE=update" >> "$GITHUB_ENV"
+          else
+            echo "MODE=create" >> "$GITHUB_ENV"
+          fi
 
       - name: Check the tools
+        if: env.MODE != 'skip'
         run: |
           python3 -m compileall -q build.py tools translations
           python3 build.py --help > /dev/null
           python3 -m tools.gen_dump_script --check
 
       - name: Make the zip
+        if: env.MODE != 'skip'
         run: |
           name="3ds-jpn-english-$TAG"
           git archive --format=zip --prefix="$name/" -o "$name.zip" "$GITHUB_SHA"
@@ -59,9 +86,23 @@ jobs:
             || { echo "build.bat lost its Windows line endings"; exit 1; }
           echo "ZIP=$name.zip" >> "$GITHUB_ENV"
 
-      - name: Create a draft release
+      - name: Create or update the draft release
+        if: env.MODE != 'skip'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$TAG" "$ZIP" --draft --target "$GITHUB_SHA" \
-            --title "$TAG" --generate-notes
+          notes=".github/release-notes/$TAG.md"
+          if [ "$MODE" = create ]; then
+            if [ -f "$notes" ]; then
+              gh release create "$TAG" "$ZIP" --draft --target "$GITHUB_SHA" --title "$TAG" --notes-file "$notes"
+            else
+              gh release create "$TAG" "$ZIP" --draft --target "$GITHUB_SHA" --title "$TAG" --generate-notes
+            fi
+          else
+            gh release upload "$TAG" "$ZIP" --clobber
+            if [ -f "$notes" ]; then
+              gh release edit "$TAG" --target "$GITHUB_SHA" --notes-file "$notes"
+            else
+              gh release edit "$TAG" --target "$GITHUB_SHA"
+            fi
+          fi
