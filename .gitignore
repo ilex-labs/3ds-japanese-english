@@ -9,6 +9,12 @@ out/
 *.msbt
 *.darc
 
+# Console-unique files: never commit (GodMode9 essential backup, keys, IDs)
+*.exefs
+*.sed
+otp.bin
+essential*
+
 # Python
 __pycache__/
 *.pyc
