@@ -1,10 +1,13 @@
-# Builds the release zip when a version tag (v1.1, v1.2, ...) is pushed and
-# attaches it to a draft release. Test the zip, then publish the draft on
-# GitHub. The zip is made with git archive, so it holds only committed
-# files: no dumps and nothing built from them.
+# Builds the release zip and attaches it to a draft release. Start it from
+# the Actions tab (Release > Run workflow): the version comes from VERSION
+# in build.py, and the tag (v1.1, v1.2, ...) is created when the draft is
+# published. Pushing a version tag also starts it. Test the zip, then
+# publish the draft on GitHub. The zip is made with git archive, so it
+# holds only committed files: no dumps and nothing built from them.
 name: Release
 
 on:
+  workflow_dispatch:
   push:
     tags: ['v*']
 
@@ -17,13 +20,21 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Check the tag matches VERSION in build.py
+      - name: Work out the version
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           version=$(python3 -c "import build; print(build.VERSION)")
-          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+          tag="v$version"
+          if [ "$GITHUB_EVENT_NAME" = push ] && [ "$GITHUB_REF_NAME" != "$tag" ]; then
             echo "Tag is $GITHUB_REF_NAME but build.py says VERSION = '$version'"
             exit 1
           fi
+          if [ "$GITHUB_EVENT_NAME" != push ] && gh release view "$tag" > /dev/null 2>&1; then
+            echo "A release for $tag already exists. Raise VERSION in build.py first."
+            exit 1
+          fi
+          echo "TAG=$tag" >> "$GITHUB_ENV"
 
       - name: Check the tools
         run: |
@@ -33,8 +44,8 @@ jobs:
 
       - name: Make the zip
         run: |
-          name="3ds-jpn-english-$GITHUB_REF_NAME"
-          git archive --format=zip --prefix="$name/" -o "$name.zip" "$GITHUB_REF_NAME"
+          name="3ds-jpn-english-$TAG"
+          git archive --format=zip --prefix="$name/" -o "$name.zip" "$GITHUB_SHA"
           unzip -Z1 "$name.zip"
           if unzip -Z1 "$name.zip" | grep -Ei '\.(app|part|cia|cxi|cfa|bin|msbt|darc|exefs|sed)$'; then
             echo "Console files found in the zip; not releasing."
@@ -52,5 +63,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "$ZIP" --draft \
-            --title "$GITHUB_REF_NAME" --generate-notes
+          gh release create "$TAG" "$ZIP" --draft --target "$GITHUB_SHA" \
+            --title "$TAG" --generate-notes
