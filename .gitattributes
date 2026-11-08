@@ -1,0 +1,9 @@
+# Line endings the launchers and GodMode9 need, whatever the checkout OS
+*.bat      text eol=crlf
+*.gm9      text eol=lf
+*.py       text eol=lf
+
+# Left out of release zips (git archive)
+.github         export-ignore
+.gitattributes  export-ignore
+.gitignore      export-ignore
