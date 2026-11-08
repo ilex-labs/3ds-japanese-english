@@ -53,6 +53,8 @@ Copy the decrypted `.app` files from `gm9/out` on the SD card into a `dumps/` fo
 python3 build.py dumps/*.app
 ```
 
+On Windows, use `py build.py dumps\*.app` (the script expands the wildcard itself).
+
 The script identifies each file from its header, translates it, and checks every line before writing anything:
 
 - formatting codes, button icons and `%d`-style placeholders must match the original exactly

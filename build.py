@@ -17,6 +17,7 @@ Copy out/luma onto the root of your SD card, merging with the existing
 luma folder.
 """
 import argparse
+import glob
 import hashlib
 import os
 import re
@@ -120,6 +121,7 @@ class Builder:
         self.out = out_dir
         self.errors = []
         self.warnings = []
+        self.pending = []  # (path, bytes); written only if the whole build passes
 
     def check_version(self, key, m):
         labels, strs = M.msbt_read(m)
@@ -152,10 +154,14 @@ class Builder:
         if M.lz11_decompress(comp) != data:
             raise BuildError(f'{rel}: compression round-trip failed')
         dst = os.path.join(self.out, 'luma', 'titles', f'{tid:016X}', 'romfs', rel)
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        with open(dst, 'wb') as f:
-            f.write(comp)
+        self.pending.append((dst, comp))
         return dst
+
+    def flush(self):
+        for dst, comp in self.pending:
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            with open(dst, 'wb') as f:
+                f.write(comp)
 
     def status_bar(self, hud_jp):
         return self.translate('status_bar', hud_jp, status_bar.T, allow_size_codes=False)
@@ -182,6 +188,15 @@ class Builder:
         return [self.write(SYSTEM_SETTINGS_TID, 'message_JP_LZ.bin', new_arc)]
 
 
+def expand(paths):
+    """Expand wildcards ourselves: Windows shells pass dumps\\*.app through literally."""
+    out = []
+    for p in paths:
+        matches = sorted(glob.glob(p)) if glob.has_magic(p) else []
+        out += matches or [p]
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('apps', nargs='+', help='decrypted .app files dumped with GodMode9')
@@ -191,7 +206,7 @@ def main():
     b = Builder(args.out)
     written, seen = [], set()
     try:
-        for path in args.apps:
+        for path in expand(args.apps):
             try:
                 n = Ncch(open(path, 'rb').read())
             except (OSError, NcchError) as e:
@@ -220,12 +235,13 @@ def main():
     if b.errors:
         for e in b.errors:
             print(f'  ERROR: {e}')
-        print(f'\n{len(b.errors)} errors. Nothing should be copied to the SD card.')
+        print(f'\n{len(b.errors)} errors. Nothing was written.')
         return 1
     if not written:
         print('\nNothing built. Pass the decrypted HOME Menu and/or System Settings .app files.')
         return 1
 
+    b.flush()
     print(f'\nBuilt {len(written)} files with 0 errors ({len(b.warnings)} width warnings).')
     print(f'Copy "{os.path.join(args.out, "luma")}" onto the root of your SD card, merging with the existing luma folder:')
     for p in written:

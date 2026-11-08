@@ -15,6 +15,7 @@ Luma's loader halts the console (svcBreak) when the app starts while a
 luma/titles/<id>/romfs folder exists for it. The Japanese Notifications
 applet (0004003000008E02) is one such title: fsMountArchive is missing.
 """
+import glob
 import struct
 import sys
 
@@ -79,7 +80,7 @@ def check(ncch):
 
 def main(paths):
     ok_all = True
-    for path in paths:
+    for path in [m for p in paths for m in ((sorted(glob.glob(p)) if glob.has_magic(p) else []) or [p])]:
         try:
             n = Ncch(open(path, 'rb').read())
         except (OSError, NcchError) as e:
