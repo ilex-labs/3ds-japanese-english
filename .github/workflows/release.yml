@@ -1,0 +1,56 @@
+# Builds the release zip when a version tag (v1.1, v1.2, ...) is pushed and
+# attaches it to a draft release. Test the zip, then publish the draft on
+# GitHub. The zip is made with git archive, so it holds only committed
+# files: no dumps and nothing built from them.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check the tag matches VERSION in build.py
+        run: |
+          version=$(python3 -c "import build; print(build.VERSION)")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag is $GITHUB_REF_NAME but build.py says VERSION = '$version'"
+            exit 1
+          fi
+
+      - name: Check the tools
+        run: |
+          python3 -m compileall -q build.py tools translations
+          python3 build.py --help > /dev/null
+          python3 -m tools.gen_dump_script --check
+
+      - name: Make the zip
+        run: |
+          name="3ds-jpn-english-$GITHUB_REF_NAME"
+          git archive --format=zip --prefix="$name/" -o "$name.zip" "$GITHUB_REF_NAME"
+          unzip -Z1 "$name.zip"
+          if unzip -Z1 "$name.zip" | grep -Ei '\.(app|part|cia|cxi|cfa|bin|msbt|darc|exefs|sed)$'; then
+            echo "Console files found in the zip; not releasing."
+            exit 1
+          fi
+          # Mac users get "permission denied" if build.command loses its
+          # executable bit, and build.bat needs Windows line endings.
+          zipinfo "$name.zip" "$name/build.command" | grep -q '^-rwx' \
+            || { echo "build.command is not executable in the zip"; exit 1; }
+          unzip -p "$name.zip" "$name/build.bat" | head -1 | grep -q $'\r$' \
+            || { echo "build.bat lost its Windows line endings"; exit 1; }
+          echo "ZIP=$name.zip" >> "$GITHUB_ENV"
+
+      - name: Create a draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "$ZIP" --draft \
+            --title "$GITHUB_REF_NAME" --generate-notes
