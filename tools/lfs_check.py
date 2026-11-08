@@ -8,6 +8,7 @@
 """Check whether Luma3DS LayeredFS can patch a title.
 
 Usage:
+    python3 -m tools.lfs_check dumps
     python3 -m tools.lfs_check dumps/*.app
 
 Luma must find five FS functions in the app's code. If any is missing,
@@ -15,10 +16,10 @@ Luma's loader halts the console (svcBreak) when the app starts while a
 luma/titles/<id>/romfs folder exists for it. The Japanese Notifications
 applet (0004003000008E02) is one such title: fsMountArchive is missing.
 """
-import glob
 import struct
 import sys
 
+from .inputs import app_paths, error_text
 from .ncch import Ncch, NcchError
 
 FUNCS = ('fsMountArchive', 'fsUnMountArchive', 'fsRegisterArchive', 'fsTryOpenFile', 'fsOpenFileDirectly')
@@ -80,22 +81,23 @@ def check(ncch):
 
 def main(paths):
     ok_all = True
-    for path in [m for p in paths for m in ((sorted(glob.glob(p)) if glob.has_magic(p) else []) or [p])]:
+    for path, label in app_paths(paths):
         try:
-            n = Ncch(open(path, 'rb').read())
+            with open(path, 'rb') as f:
+                n = Ncch(f.read())
         except (OSError, NcchError) as e:
-            print(f'{path}: {e}')
+            print(f'{label}: {error_text(e)}')
             ok_all = False
             continue
         try:
             res = check(n)
         except (NcchError, struct.error):
-            print(f'{path}: {n.title_id:016X} {n.product_code}: no program code '
+            print(f'{label}: {n.title_id:016X} {n.product_code}: no program code '
                   f'(manual or data content), skipped')
             continue
         missing = [k for k, v in res.items() if v is None]
         verdict = 'OK - LayeredFS should work' if not missing else 'NOT SUPPORTED - Luma will halt on launch'
-        print(f'{path}: {n.title_id:016X} {n.product_code}: {verdict}')
+        print(f'{label}: {n.title_id:016X} {n.product_code}: {verdict}')
         for k, v in res.items():
             print(f'    {k:20s} {"0x%06x" % v if v is not None else "missing"}')
         ok_all &= not missing
