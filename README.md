@@ -91,6 +91,8 @@ If the tool later says Python wasn't found, restart your computer and try again.
 
 The zip includes a GodMode9 script that copies the relevant app files from your console to your SD card and decrypts them. It only reads from the console and writes to the `gm9/out` folder on the SD card.
 
+> **Important:** don't share the dumped files or anything the tool builds from them, whether you used the script or dumped them by hand. They contain copyrighted system software from your console.
+
 1. Put your SD card in your computer. Copy `gm9/scripts/dump_system_apps.gm9` from the zip into the `gm9/scripts` folder on the SD card (create `scripts` if it isn't there).
 2. Put the SD card back in the console. Hold **START** while powering on to open GodMode9.
 3. Press **HOME** → **Scripts...** → **dump_system_apps**, then press **A** to confirm.
@@ -115,8 +117,6 @@ If you'd rather not use the script, or would only like to translate certain apps
 Then put the decrypted `.app` files in a folder called `dumps` next to `build.bat` and `build.command`.
 
 </details>
-
-> **Important:** don't share the dumped files or anything the tool builds from them, whether you used the script or dumped them by hand. They contain copyrighted system software from your console.
 
 ## 2. Build
 
