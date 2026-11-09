@@ -16,6 +16,8 @@ supports, validates every string, and writes a ready-to-copy folder:
     out/luma/titles/0004001000020700/romfs/...   (Mii Maker)
     out/luma/titles/0004003000008702/romfs/...   (Game Notes)
     out/luma/titles/0004001000020800/romfs/...   (StreetPass Mii Plaza)
+    out/luma/titles/0004001000020400/romfs/...   (Nintendo 3DS Camera)
+    out/luma/titles/0004001000020500/romfs/...   (Nintendo 3DS Sound)
 
 Copy out/luma onto the root of your SD card, merging with the existing
 luma folder.
@@ -28,11 +30,11 @@ import struct
 import sys
 import unicodedata
 
-from tools import bmsm, darc, msgtool as M
+from tools import bmsm, darc, msgarc, msgtool as M
 from tools.inputs import app_paths, error_text, scrub
 from tools.ncch import Ncch, NcchError
-from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker,
-                          plaza_park, plaza_system, status_bar,
+from translations import (camera, home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker,
+                          plaza_park, plaza_system, sound, status_bar,
                           system_settings_1, system_settings_2, system_settings_3,
                           system_settings_4, system_settings_5, system_settings_6)
 
@@ -43,6 +45,8 @@ SYSTEM_SETTINGS_TID = 0x0004001000020000
 MII_MAKER_TID = 0x0004001000020700
 GAME_NOTES_TID = 0x0004003000008702
 NOTIFICATIONS_TID = 0x0004003000008E02
+CAMERA_TID = 0x0004001000020400
+SOUND_TID = 0x0004001000020500
 # StreetPass Mii Plaza: the text comes from its update (on the SD card), but
 # Luma looks for the files under the base app's title ID.
 PLAZA_UPDATE_TID = 0x0004000E00020800
@@ -57,6 +61,8 @@ MAIN_FILE = {
     MII_MAKER_TID: 'message/JP_Japanese.arc',
     GAME_NOTES_TID: 'lang/JP_Japanese/message.msbt',
     PLAZA_UPDATE_TID: PLAZA_DIR + 'system/system.bmsm',
+    CAMERA_TID: 'msg/JP_Japanese.LZ',
+    SOUND_TID: 'msg/JP_Japanese.LZ',
 }
 
 # Fingerprints of the message tables the translation was made against:
@@ -69,6 +75,12 @@ EXPECTED = {
     'mii_maker': (268, 'c6139d36900b7e03'),
     'game_notes': (61, '1e55f1b218767db3'),
     'game_notes_english': (61, '1e55f1b218767db3'),
+    'camera_main': (169, '45b350b048c201b0'),
+    'camera_dialogs': (477, '08bfb2dcda54a799'),
+    'camera_guide': (684, '8625a14b00a4ce66'),
+    'sound_main': (166, '197fdf0adb8f8782'),
+    'sound_dialogs': (335, '2ae922483674b630'),
+    'sound_guide': (657, '31057d5481dda5e6'),
 }
 
 # StreetPass Mii Plaza: file -> (module, table, number of entries, sha1 of their labels).
@@ -140,7 +152,10 @@ class LongLine:
     """A translated line wider than the Japanese it replaces: it may wrap on screen.
     Not a problem, so these are listed in out/long-lines.txt rather than shown."""
     APPS = {'home_menu': 'HOME Menu', 'system_settings': 'System Settings', 'mii_maker': 'Mii Maker',
-            'game_notes': 'Game Notes', 'status_bar': 'Status bar', 'plaza': 'StreetPass Mii Plaza'}
+            'game_notes': 'Game Notes', 'status_bar': 'Status bar', 'plaza': 'StreetPass Mii Plaza',
+            'camera_main': 'Nintendo 3DS Camera', 'camera_dialogs': 'Nintendo 3DS Camera',
+            'camera_guide': 'Nintendo 3DS Camera (How to Use)', 'sound_main': 'Nintendo 3DS Sound',
+            'sound_dialogs': 'Nintendo 3DS Sound', 'sound_guide': 'Nintendo 3DS Sound (How to Use)'}
 
     def __init__(self, table, index, text, width, jp_width):
         self.table, self.index, self.text = table, index, text
@@ -364,6 +379,33 @@ class Builder:
         return written
 
 
+    def msg_archive(self, tid, key, romfs, files):
+        """Camera and Sound keep three .msbt files in msg/JP_Japanese.LZ."""
+        try:
+            arc = M.lz11_decompress(romfs['msg/JP_Japanese.LZ'])
+            inside = msgarc.files(arc)
+        except (msgarc.MsgArcError, AssertionError, ValueError, IndexError) as e:
+            raise VersionMismatch(f'{key}: msg/JP_Japanese.LZ could not be read ({e}). Not building it.')
+        new = {}
+        for name, (suffix, T) in files.items():
+            if name not in inside:
+                raise VersionMismatch(f'{key}: {name} is missing. Not building it.')
+            new[name] = self.translate(f'{key}_{suffix}', inside[name], T, allow_size_codes=False)
+        return [self.write(tid, 'msg/JP_Japanese.LZ', msgarc.rebuild(arc, new))]
+
+    def camera(self, romfs):
+        print('Nintendo 3DS Camera (0004001000020400)')
+        return self.msg_archive(CAMERA_TID, 'camera', romfs, {
+            'P.msbt': ('main', camera.MAIN), 'P_dlg.msbt': ('dialogs', camera.DIALOGS),
+            'P_tips.msbt': ('guide', camera.GUIDE)})
+
+    def sound(self, romfs):
+        print('Nintendo 3DS Sound (0004001000020500)')
+        return self.msg_archive(SOUND_TID, 'sound', romfs, {
+            'S.msbt': ('main', sound.MAIN), 'S_dlg.msbt': ('dialogs', sound.DIALOGS),
+            'S_tips.msbt': ('guide', sound.GUIDE)})
+
+
 def main():
     # Some Windows consoles can't show every character; never crash on that.
     for stream in (sys.stdout, sys.stderr):
@@ -395,7 +437,8 @@ def main():
                 except (NcchError, struct.error, ValueError):  # unreadable RomFS: treat as not the program
                     romfs = {}
             builders = {HOME_MENU_TID: b.home_menu, SYSTEM_SETTINGS_TID: b.system_settings,
-                        MII_MAKER_TID: b.mii_maker, GAME_NOTES_TID: b.game_notes, PLAZA_UPDATE_TID: b.plaza}
+                        MII_MAKER_TID: b.mii_maker, GAME_NOTES_TID: b.game_notes, PLAZA_UPDATE_TID: b.plaza,
+                        CAMERA_TID: b.camera, SOUND_TID: b.sound}
             if tid in MAIN_FILE and MAIN_FILE[tid] in romfs:
                 if tid in seen:
                     print(f'{label}: {tid:016X} was already built from another file, skipped')

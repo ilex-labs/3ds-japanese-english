@@ -1,6 +1,6 @@
 # English Menus for Japanese 3DS Consoles
 
-English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Game Notes and StreetPass Mii Plaza, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
+English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Game Notes, StreetPass Mii Plaza, Nintendo 3DS Camera and Nintendo 3DS Sound, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
 
 > **Maintained fork.** This is a fork of [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which its author released as is and isn't updating. This fork fixes bugs and adds a script and double-click launchers, so you don't have to dump files by hand or use the command line. See [Changes from upstream](#changes-from-upstream).
 
@@ -17,6 +17,8 @@ English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Gam
 | Mii Maker (called Mii Studio on Japanese consoles) | `0004001000020700` | 233 of 248 lines (the other 15 are already Latin text) |
 | Game Notes | `0004003000008702` | All 33 lines, using the English text Nintendo already includes in the app |
 | StreetPass Mii Plaza (the plaza itself: the gate and the Miis you meet, their profiles, the StreetPass map, hats, settings, the Hall of Fame, the shop and the music list) | `0004001000020800`, built from its update `0004000E00020800` | All 2,990 lines of the plaza. The games inside it stay in Japanese, see [Known limitations](#known-limitations) |
+| Nintendo 3DS Camera (taking and viewing photos and videos, slideshows, settings, the built-in tips) | `0004001000020400` | 1,050 of 1,072 lines (the rest are only numbers and codes, or the words voice-shutter listens for) |
+| Nintendo 3DS Sound (music player, voice recorder, StreetPass charts, settings, the built-in tips) | `0004001000020500` | 808 of 819 lines (the rest are only numbers and codes) |
 | Top-screen status bar (Wi-Fi state, date and weekday) | Covered in HOME Menu, System Settings and Game Notes | Done |
 | Notifications | `0004003000008E02` | **Not supported**, see [Known limitations](#known-limitations) |
 
@@ -63,7 +65,7 @@ This approach only adds files under `luma/titles/` on the SD card. It works like
 
 </details>
 
-**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Mii Maker, Game Notes and StreetPass Mii Plaza were added in v1.2 and tested on the New 2DS LL. Other models should work the same way; if you try one, please let us know in an issue.
+**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Mii Maker, Game Notes, StreetPass Mii Plaza, Nintendo 3DS Camera and Nintendo 3DS Sound were added in v1.2 and tested on the New 2DS LL. Other models should work the same way; if you try one, please let us know in an issue.
 
 ## Install Python
 
@@ -99,7 +101,7 @@ If the script is interrupted, just run it again.
 
 The StreetPass Mii Plaza translation is made for the Plaza's last update (the version with the shop and the paid games), which lives on the SD card. If your console never downloaded that update, the script lists it as not installed and the rest still works.
 
-**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker, Game Notes and the StreetPass Mii Plaza update. When it asks whether to dump again, choose **No** to keep the files you already have and only add the new ones.
+**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update. When it asks whether to dump again, choose **No** to keep the files you already have and only add the new ones.
 
 <details>
 <summary><b>Dumping by hand instead</b></summary>
@@ -154,6 +156,8 @@ To undo the changes, delete these folders from the SD card:
 - `luma/titles/0004001000020700` (Mii Maker)
 - `luma/titles/0004003000008702` (Game Notes)
 - `luma/titles/0004001000020800` (StreetPass Mii Plaza)
+- `luma/titles/0004001000020400` (Nintendo 3DS Camera)
+- `luma/titles/0004001000020500` (Nintendo 3DS Sound)
 
 You can do this on a computer, or on the console:
 
@@ -203,6 +207,7 @@ The tables are in `translations/`, keyed by string number. Strings use a display
 - `tools/ncch.py` reads decrypted `.app` (NCCH) files: header, RomFS, and the program code.
 - `tools/msgtool.py` handles LZ11 compression and Nintendo's MSBT text format.
 - `tools/darc.py` repacks the DARC archives System Settings and Mii Maker keep their text in.
+- `tools/msgarc.py` repacks the small message archive Nintendo 3DS Camera and Nintendo 3DS Sound keep their text in.
 - `tools/bmsm.py` reads and writes the `.bmsm` text files of the updated StreetPass Mii Plaza.
 - `tools/lfs_check.py` is a port of Luma3DS's LayeredFS function search.
 - `tools/inputs.py` turns folders and wildcards into a list of `.app` files, and keeps user names out of the output.
@@ -227,8 +232,9 @@ Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma
 - New: Mii Maker is translated.
 - New: Game Notes is in English, using the English text Nintendo already includes in the app.
 - New: StreetPass Mii Plaza is translated: the plaza itself, its settings, the shop and the music list. The games inside it stay in Japanese.
+- New: Nintendo 3DS Camera and Nintendo 3DS Sound are translated, including their built-in tips.
 - If one app's files are a different system version than the translation was made for, the build now skips just that app instead of stopping altogether.
-- The GodMode9 script now also copies Mii Maker, Game Notes and the StreetPass Mii Plaza update.
+- The GodMode9 script now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update.
 
 **v1.1** (November 2026)
 
