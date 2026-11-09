@@ -1,4 +1,4 @@
-# 3ds-jpn-english
+# English Translation for Japanese 3DS Consoles
 
 English menus for a Japanese 3DS: the HOME Menu and System Settings, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
 
