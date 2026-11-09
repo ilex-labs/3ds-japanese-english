@@ -97,7 +97,7 @@ If the script is interrupted, just run it again.
 <details>
 <summary><b>Dumping by hand instead</b></summary>
 
-If you'd rather not use the script, or would only like to translate certain files for some reason, boot up GodMode9 and:
+If you'd rather not use the script, or would only like to translate certain apps for some reason, boot up GodMode9 and:
 
 1. Go to `[1:] SYSNAND CTRNAND` > `title` > navigate to the correct title folder > `content`.
 2. Highlight the relevant `.app` file(s), press **Y** to copy them, go to `[0:] SDCARD` > `gm9` > `out` and press **Y** to paste.
