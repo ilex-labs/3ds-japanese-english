@@ -63,7 +63,7 @@ elif [ -d dumps ]; then
     "$PY" build.py dumps
 else
     echo "Drag your dumps folder into this window, then press Return."
-    echo "(That's the 3ds-jpn-english folder from gm9/out on your SD card.)"
+    echo "(That's the 3ds-japanese-english folder from gm9/out on your SD card.)"
     echo
     # No -r: Terminal escapes spaces in dragged paths with backslashes,
     # and plain read removes them.

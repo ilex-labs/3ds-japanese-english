@@ -6,7 +6,7 @@
 # (HOME Menu, System Settings, Mii Maker, Game Notes, Nintendo 3DS Camera and
 # Nintendo 3DS Sound from SysNAND, and the
 # StreetPass Mii Plaza update from the SD card) to
-# 0:/gm9/out/3ds-jpn-english/<titleid>/ and decrypts the copies there.
+# 0:/gm9/out/3ds-japanese-english/<titleid>/ and decrypts the copies there.
 # Read-only on system memory: it only reads from 1:/title and A:/title
 # and only writes to 0:/gm9/out. Only .app files are copied (no .tmd or
 # cmd folder).
@@ -20,17 +20,17 @@
 # At the end, it lists which apps were copied fresh, kept from an
 # earlier run, or not installed.
 
-set DST 0:/gm9/out/3ds-jpn-english
-set NONE 0:/gm9/out/3ds-jpn-english/__nothing__
+set DST 0:/gm9/out/3ds-japanese-english
+set NONE 0:/gm9/out/3ds-japanese-english/__nothing__
 set ABSENT ""
 set NEW ""
 set KEPT ""
 set MODE redo
 set ERRORMSG "Script stopped. Nothing on the\nconsole was changed. Note the\nfile shown and open an issue\non GitHub."
 
-ask "Copy and decrypt 7 system apps\nto 0:/gm9/out/3ds-jpn-english?\n \nNothing on the console is changed."
+ask "Copy and decrypt 7 system apps\nto 0:/gm9/out/3ds-japanese-english?\n \nNothing on the console is changed."
 if find $[DST]/* NULL
-if ask "Files from an earlier run are\nalready in gm9/out/3ds-jpn-english.\n \nDump those apps again?\n \nYes: replace them with fresh copies.\nNo: keep them and skip them."
+if ask "Files from an earlier run are\nalready in gm9/out/3ds-japanese-english.\n \nDump those apps again?\n \nYes: replace them with fresh copies.\nNo: keep them and skip them."
 set MODE redo
 else
 set MODE skip
@@ -364,4 +364,4 @@ end
 if chk -u "$[ABSENT]" ""
 echo "Not installed on this console:\n$[ABSENT]"
 end
-set SUCCESSMSG "Done. Decrypted files are in\n0:/gm9/out/3ds-jpn-english"
+set SUCCESSMSG "Done. Decrypted files are in\n0:/gm9/out/3ds-japanese-english"

@@ -4,9 +4,9 @@ English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Gam
 
 > **Maintained fork.** This is a fork of [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which its author released as is and isn't updating. This fork fixes bugs and adds a script and double-click launchers, so you don't have to dump files by hand or use the command line. See [Changes from upstream](#changes-from-upstream).
 
-**Important:** This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card ([how it works](#how-it-works)).
+**Important:** This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card ([how it works](CONTRIBUTING.md#how-it-works)).
 
-**Download:** Get the latest zip file from the [Releases](https://github.com/ilex-labs/3ds-jpn-english/releases) page.
+**Download:** Get the latest zip file from the [Releases](https://github.com/ilex-labs/3ds-japanese-english/releases) page.
 
 ## What you get
 
@@ -97,13 +97,13 @@ The zip includes a GodMode9 script that copies the relevant app files from your 
 2. Put the SD card back in the console. Hold **START** while powering on to open GodMode9.
 3. Press **HOME** → **Scripts...** → **dump_system_apps**, then press **A** to confirm.
 4. Wait until the bottom screen shows a summary, then press **A**. Hold **R** and press **START** to power off.
-5. Put the SD card in your computer. Copy the folder `gm9/out/3ds-jpn-english` into the folder where you unzipped this tool, and rename the copy to `dumps`.
+5. Put the SD card in your computer. Copy the folder `gm9/out/3ds-japanese-english` into the folder where you unzipped this tool, and rename the copy to `dumps`.
 
 If the script is interrupted, just run it again.
 
 The StreetPass Mii Plaza translation is made for the Plaza's last update (the version with the shop and the paid games), which lives on the SD card. If your console never downloaded that update, the script lists it as not installed and the rest still works.
 
-**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update. When it asks whether to dump again, choose **No** to keep the files you already have and only add the new ones.
+**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update. The project was renamed, so the files now go to `gm9/out/3ds-japanese-english`; you can delete the old `gm9/out/3ds-jpn-english` folder.
 
 <details>
 <summary><b>Dumping by hand instead</b></summary>
@@ -172,60 +172,9 @@ You can do this on a computer, or on the console:
 - **The Language setting** shows the language names in English, but Japanese is still the only choice on a Japanese console.
 - **Some labels are shortened to fit** (for example "Conn. 1" for Connection 1). If something looks cut off on your console, please open an issue with a photo.
 
-## For developers
+## Contributing
 
-### Building from a terminal
-
-```
-python3 build.py dumps
-```
-
-(`py build.py dumps` on Windows.) You can pass `.app` files instead of a folder.
-
-Folders named `dumps` or `dumps-anything` are git-ignored, so dumps can't be committed by accident.
-
-### Checking whether Luma can patch an app
-
-```
-python3 -m tools.lfs_check dumps
-```
-
-Not every app can be patched. LayeredFS needs to find five file-system functions in an app's code; the Japanese Notifications app, for example, has no general "mount archive" function, so Luma halts the console when it opens with a translation folder present. Its table is kept in `translations/notifications.py` for reference; the build skips it.
-
-### Editing translations
-
-The tables are in `translations/`, keyed by string number. Strings use a display form: plain text, plus `{{hex}}` tokens for Nintendo's formatting codes, copied verbatim from the original. `translations/common.py` has named constants for the button icons (`A`, `B`, `HOME`, ...) and common formatting blocks. The StreetPass Mii Plaza tables (`translations/plaza_*.py`) are keyed by label instead, one table per file, and use the game's own `[MII_NAME]`-style placeholders and `[System:Color ...]` markup, which must stay as they are. Run the build after every change; it rejects anything that would break on the console.
-
-### How it works
-
-The build identifies each file from its header, translates it, and checks every line before writing anything:
-
-- formatting codes, button icons and `%d`-style placeholders must match the original exactly
-- labels in System Settings can't use added font-size codes (they render blank there)
-- your files must match the system version the translation was made for; if an app's don't, the build skips that app (and tells you) instead of putting text in the wrong places
-
-If any check fails, nothing is written. Some lines are a little longer than the Japanese and may show on two lines; that's normal. They're listed in `out/long-lines.txt` in case one looks wrong on your console. If you'd like to shorten one yourself, see [Editing translations](#editing-translations).
-
-The code is split up like this:
-
-- `tools/ncch.py` reads decrypted `.app` (NCCH) files: header, RomFS, and the program code.
-- `tools/msgtool.py` handles LZ11 compression and Nintendo's MSBT text format.
-- `tools/darc.py` repacks the DARC archives System Settings and Mii Maker keep their text in.
-- `tools/msgarc.py` repacks the small message archive Nintendo 3DS Camera and Nintendo 3DS Sound keep their text in.
-- `tools/bmsm.py` reads and writes the `.bmsm` text files of the updated StreetPass Mii Plaza.
-- `tools/lfs_check.py` is a port of Luma3DS's LayeredFS function search.
-- `tools/inputs.py` turns folders and wildcards into a list of `.app` files, and keeps user names out of the output.
-- `build.py` ties it together, validates, and writes the `luma/titles/...` tree. `build.bat` and `build.command` find Python and run it.
-- `gm9/scripts/dump_system_apps.gm9` is generated by `tools/gen_dump_script.py`, which also checks the script's structure. It's written for GodMode9 v2.2.3. Edit the generator, then run `python3 -m tools.gen_dump_script`.
-
-### Making a release
-
-1. Raise `VERSION` in `build.py` (for example to `1.3`).
-2. Add the release notes as `.github/release-notes/v1.3.md`, and the changes under [Changes from upstream](#changes-from-upstream).
-3. Push to `main`. GitHub Actions (`.github/workflows/release.yml`) builds the zip with `git archive`, so it contains only files in this repo, checks it, and creates a draft release. Pushing again before publishing updates the same draft.
-4. Download the zip from the draft, test it, then publish the draft. Publishing creates the `v1.3` tag.
-
-The workflow can also be started by hand from the Actions tab (**Release** > **Run workflow**).
+To report a mistranslation, fix one yourself, or work on the tools, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changes from upstream
 
@@ -239,6 +188,8 @@ Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma
 - New: Nintendo 3DS Camera and Nintendo 3DS Sound are translated, including their built-in tips.
 - If one app's files are a different system version than the translation was made for, the build now skips just that app instead of stopping altogether.
 - The GodMode9 script now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update.
+- Renamed to 3ds-japanese-english. The GodMode9 script now saves to `gm9/out/3ds-japanese-english`.
+- Developer notes moved to [CONTRIBUTING.md](CONTRIBUTING.md), with how to report a mistranslation.
 
 **v1.1** (November 2026)
 

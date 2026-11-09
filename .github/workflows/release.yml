@@ -71,7 +71,7 @@ jobs:
       - name: Make the zip
         if: env.MODE != 'skip'
         run: |
-          name="3ds-jpn-english-$TAG"
+          name="3ds-japanese-english-$TAG"
           git archive --format=zip --prefix="$name/" -o "$name.zip" "$GITHUB_SHA"
           unzip -Z1 "$name.zip"
           if unzip -Z1 "$name.zip" | grep -Ei '\.(app|part|cia|cxi|cfa|bin|msbt|darc|exefs|sed)$'; then

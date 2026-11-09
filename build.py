@@ -170,7 +170,7 @@ class LongLine:
 def write_long_lines(path, lines):
     """Write the list of lines that may wrap, grouped by app, for people to read."""
     with open(path, 'w', encoding='utf-8', newline='') as f:
-        f.write(f'3ds-jpn-english v{VERSION}\n\n'
+        f.write(f'3ds-japanese-english v{VERSION}\n\n'
                 f'These {len(lines)} lines are a little longer than the Japanese they replace, so\n'
                 f'the 3DS might show them on two lines. That\'s normal and usually looks fine.\n'
                 f'If one looks cut off or messy on your console, please open an issue on\n'
@@ -419,7 +419,7 @@ def main():
     ap.add_argument('--out', default='out', help='output folder (default: out)')
     args = ap.parse_args()
 
-    print(f'3ds-jpn-english v{VERSION}\n')
+    print(f'3ds-japanese-english v{VERSION}\n')
     b = Builder(args.out)
     written, seen, mismatched = [], set(), []
     try:

@@ -24,7 +24,7 @@ if not "%~1"=="" goto run_args
 if exist "dumps\" goto run_dumps
 
 echo Drag your dumps folder into this window, then press Enter.
-echo (That's the 3ds-jpn-english folder from gm9\out on your SD card.)
+echo (That's the 3ds-japanese-english folder from gm9\out on your SD card.)
 echo.
 set "DUMPS="
 set /p "DUMPS=Folder: "
