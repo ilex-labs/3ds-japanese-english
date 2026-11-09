@@ -72,8 +72,9 @@ EXPECTED = {
 }
 
 # StreetPass Mii Plaza: file -> (module, table, number of entries, sha1 of their labels).
-# Only the Plaza itself: the games inside it (Puzzle Swap, Find Mii and the
-# ones sold in its shop) and the shop's sales pitches for them stay Japanese.
+# Only the Plaza itself, including the shop rabbit's introduction of each
+# game: the games inside it (Puzzle Swap, Find Mii and the ones sold in its
+# shop) stay Japanese.
 PLAZA_FILES = {
     'system/bg': (plaza_system, 'BG', 32, '88c2b65058d9cd2d'),
     'system/dialogue': (plaza_system, 'DIALOGUE', 5, 'be98af37bad99e8d'),
@@ -93,6 +94,7 @@ PLAZA_FILES = {
     'park/mii_setting': (plaza_park, 'MII_SETTING', 123, 'aae6dcea18c6970e'),
     'park/option': (plaza_park, 'OPTION', 207, '304eb448ad11bded'),
     'park/park': (plaza_park, 'PARK', 316, 'e87dce2e9ae87b79'),
+    'park/presen': (plaza_park, 'PRESEN', 778, '886dad663364c60d'),
     'park/prof': (plaza_park, 'PROF', 77, 'caf5e0e1812d7943'),
     'park/sound': (plaza_park, 'SOUND', 379, '84e3b3b911f50b4d'),
     'park/vip_room': (plaza_park, 'VIP_ROOM', 12, '565131e2f9d7d841'),

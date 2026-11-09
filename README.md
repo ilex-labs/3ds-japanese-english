@@ -16,7 +16,7 @@ English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Gam
 | System Settings (every menu, Internet setup, Data Management, Parental Controls, first-time setup) | `0004001000020000` | 1,049 of 1,053 lines (the other 4 are already English or are prompts for other regions) |
 | Mii Maker (called Mii Studio on Japanese consoles) | `0004001000020700` | 233 of 248 lines (the other 15 are already Latin text) |
 | Game Notes | `0004003000008702` | All 33 lines, using the English text Nintendo already includes in the app |
-| StreetPass Mii Plaza (the plaza itself: the gate and the Miis you meet, their profiles, the StreetPass map, hats, settings, the Hall of Fame, the shop's checkout and the music list) | `0004001000020800`, built from its update `0004000E00020800` | All 2,297 lines of the plaza. The games inside it stay in Japanese, see [Known limitations](#known-limitations) |
+| StreetPass Mii Plaza (the plaza itself: the gate and the Miis you meet, their profiles, the StreetPass map, hats, settings, the Hall of Fame, the shop and the music list) | `0004001000020800`, built from its update `0004000E00020800` | All 2,990 lines of the plaza. The games inside it stay in Japanese, see [Known limitations](#known-limitations) |
 | Top-screen status bar (Wi-Fi state, date and weekday) | Covered in HOME Menu, System Settings and Game Notes | Done |
 | Notifications | `0004003000008E02` | **Not supported**, see [Known limitations](#known-limitations) |
 
@@ -166,8 +166,8 @@ You can do this on a computer, or on the console:
 
 - **Notifications can't be translated.** Luma can't patch that app on Japanese consoles; trying makes the console stop when it opens.
 - **Only the apps above** are translated, not other system apps.
-- **Games stay in Japanese, including the ones in StreetPass Mii Plaza.** This project translates the console and what you need to use it, not games. Puzzle Swap, Find Mii and the games sold in the Plaza's shop are untouched, and so is the shop rabbit's description of each game; the game names, the Plaza around them and the shop's checkout are in English. The pre-installed games (AR Games, Face Raiders) aren't translated either.
-- **Some music titles in StreetPass Mii Plaza are our own**, where we couldn't confirm Nintendo's English name for a track.
+- **Games stay in Japanese, including the ones in StreetPass Mii Plaza.** This project translates the console and what you need to use it, not games. Puzzle Swap, Find Mii and the games sold in the Plaza's shop are untouched; the Plaza around them, including the shop rabbit's introduction of each game, is in English. The pre-installed games (AR Games, Face Raiders) aren't translated either.
+- **Some names in StreetPass Mii Plaza are our own**, where we couldn't confirm Nintendo's English one: some characters and places in the shop's game introductions and some music titles.
 - **The on-screen keyboard** (used when you type a name or a password) starts on a Japanese layout and its buttons stay in Japanese. You can switch it to the Latin alphabet.
 - **The electronic manuals** stay in Japanese. The HOME Menu opens them directly, so Luma can't swap their text.
 - **Messages from games and Nintendo stay in Japanese.** StreetPass results, SpotPass news and announcements are written by the sender, not part of the menus.
@@ -226,7 +226,7 @@ Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma
 
 - New: Mii Maker is translated.
 - New: Game Notes is in English, using the English text Nintendo already includes in the app.
-- New: StreetPass Mii Plaza is translated: the plaza itself, its settings, the shop's checkout and the music list. The games inside it stay in Japanese.
+- New: StreetPass Mii Plaza is translated: the plaza itself, its settings, the shop and the music list. The games inside it stay in Japanese.
 - If one app's files are a different system version than the translation was made for, the build now skips just that app instead of stopping altogether.
 - The GodMode9 script now also copies Mii Maker, Game Notes and the StreetPass Mii Plaza update.
 
