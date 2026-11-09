@@ -34,7 +34,7 @@ from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mi
                           system_settings_1, system_settings_2, system_settings_3,
                           system_settings_4, system_settings_5, system_settings_6)
 
-VERSION = '1.1'
+VERSION = '1.2'
 
 HOME_MENU_TID = 0x0004003000008202
 SYSTEM_SETTINGS_TID = 0x0004001000020000

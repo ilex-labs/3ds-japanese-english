@@ -1,6 +1,6 @@
 # English Menus for Japanese 3DS Consoles
 
-English menus for a Japanese 3DS: the HOME Menu and System Settings, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
+English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker and Game Notes, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
 
 > **Maintained fork.** This is a fork of [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which its author released as is and isn't updating. This fork fixes bugs and adds a script and double-click launchers, so you don't have to dump files by hand or use the command line. See [Changes from upstream](#changes-from-upstream).
 
@@ -14,10 +14,12 @@ English menus for a Japanese 3DS: the HOME Menu and System Settings, without a r
 |---|---|---|
 | HOME Menu (menus, dialogs, HOME Menu Settings, sleep/power screens, built-in tips) | `0004003000008202` | 509 of 514 lines (the other 5 are already Latin text) |
 | System Settings (every menu, Internet setup, Data Management, Parental Controls, first-time setup) | `0004001000020000` | 1,049 of 1,053 lines (the other 4 are already English or are prompts for other regions) |
-| Top-screen status bar (Wi-Fi state, date and weekday) | Covered in both apps above | Done |
+| Mii Maker (called Mii Studio on Japanese consoles) | `0004001000020700` | 233 of 248 lines (the other 15 are already Latin text) |
+| Game Notes | `0004003000008702` | All 33 lines, using the English text Nintendo already includes in the app |
+| Top-screen status bar (Wi-Fi state, date and weekday) | Covered in HOME Menu, System Settings and Game Notes | Done |
 | Notifications | `0004003000008E02` | **Not supported**, see [Known limitations](#known-limitations) |
 
-Nintendo's usual US English names are used where they exist (Game Notes, StreetPass, SpotPass, Play Coins, Super-Stable 3D, Circle Pad).
+Nintendo's usual US English names are used where they exist (Game Notes, Mii Maker, StreetPass, SpotPass, Play Coins, Super-Stable 3D, Circle Pad).
 
 ## Why not just do a region change?
 
@@ -27,7 +29,7 @@ The usual way to get English menus on a Japanese 3DS is a region change. This to
 - **It can break your online account.** Nintendo Network IDs are tied to the region they were made in, so you can lose eShop access and anything linked to it, like Pokémon Bank.
 - **It's more than most people need** if you just want to read the menus. Region-free and per-game language settings already cover games.
 
-This approach only adds files under `luma/titles/` on the SD card. It works like a game mod: whenever the HOME Menu or System Settings reads its text, Luma hands it the English version from the SD card instead, on the fly. Nothing on the console itself is modified. Delete the folder and everything is back to Japanese.
+This approach only adds files under `luma/titles/` on the SD card. It works like a game mod: whenever one of these apps reads its text, Luma hands it the English version from the SD card instead, on the fly. Nothing on the console itself is modified. Delete the folder and everything is back to Japanese.
 
 **The trade-off:** it only covers apps Luma can patch (Notifications can't be), and it translates the interface, not text that games or Nintendo send you.
 
@@ -60,7 +62,7 @@ This approach only adds files under `luma/titles/` on the SD card. It works like
 
 </details>
 
-**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Other models should work the same way; if you try one, please let us know in an issue.
+**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Mii Maker and Game Notes were added in v1.2 and tested on the New 2DS LL. Other models should work the same way; if you try one, please let us know in an issue.
 
 ## Install Python
 
@@ -93,6 +95,8 @@ The zip includes a GodMode9 script that copies the relevant app files from your 
 5. Put the SD card in your computer. Copy the folder `gm9/out/3ds-jpn-english` into the folder where you unzipped this tool, and rename the copy to `dumps`.
 
 If the script is interrupted, just run it again.
+
+**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker and Game Notes. When it asks whether to dump again, choose **No** to keep the files you already have and only add the new ones.
 
 <details>
 <summary><b>Dumping by hand instead</b></summary>
@@ -144,6 +148,8 @@ To undo the changes, delete these folders from the SD card:
 
 - `luma/titles/0004003000008202` (HOME Menu)
 - `luma/titles/0004001000020000` (System Settings)
+- `luma/titles/0004001000020700` (Mii Maker)
+- `luma/titles/0004003000008702` (Game Notes)
 
 You can do this on a computer, or on the console:
 
@@ -155,7 +161,9 @@ You can do this on a computer, or on the console:
 ## Known limitations
 
 - **Notifications can't be translated.** Luma can't patch that app on Japanese consoles; trying makes the console stop when it opens.
-- **Only HOME Menu and System Settings** are translated, not other system apps.
+- **Only the four apps above** are translated, not other system apps.
+- **The on-screen keyboard** (used when you type a name or a password) starts on a Japanese layout and its buttons stay in Japanese. You can switch it to the Latin alphabet.
+- **The electronic manuals** stay in Japanese. The HOME Menu opens them directly, so Luma can't swap their text.
 - **Messages from games and Nintendo stay in Japanese.** StreetPass results, SpotPass news and announcements are written by the sender, not part of the menus.
 - **The Language setting** shows the language names in English, but Japanese is still the only choice on a Japanese console.
 - **Some labels are shortened to fit** (for example "Conn. 1" for Connection 1). If something looks cut off on your console, please open an issue with a photo.
@@ -188,7 +196,7 @@ The tables are in `translations/`, keyed by string number. Strings use a display
 
 - `tools/ncch.py` reads decrypted `.app` (NCCH) files: header, RomFS, and the program code.
 - `tools/msgtool.py` handles LZ11 compression and Nintendo's MSBT text format.
-- `tools/darc.py` repacks the DARC archive System Settings keeps its text in.
+- `tools/darc.py` repacks the DARC archives System Settings and Mii Maker keep their text in.
 - `tools/lfs_check.py` is a port of Luma3DS's LayeredFS function search.
 - `tools/inputs.py` turns folders and wildcards into a list of `.app` files, and keeps user names out of the output.
 - `build.py` ties it together, validates, and writes the `luma/titles/...` tree. `build.bat` and `build.command` find Python and run it.
@@ -196,16 +204,22 @@ The tables are in `translations/`, keyed by string number. Strings use a display
 
 ### Making a release
 
-1. Raise `VERSION` in `build.py` (for example to `1.2`).
-2. Add the release notes as `.github/release-notes/v1.2.md`, and the changes under [Changes from upstream](#changes-from-upstream).
+1. Raise `VERSION` in `build.py` (for example to `1.3`).
+2. Add the release notes as `.github/release-notes/v1.3.md`, and the changes under [Changes from upstream](#changes-from-upstream).
 3. Push to `main`. GitHub Actions (`.github/workflows/release.yml`) builds the zip with `git archive`, so it contains only files in this repo, checks it, and creates a draft release. Pushing again before publishing updates the same draft.
-4. Download the zip from the draft, test it, then publish the draft. Publishing creates the `v1.2` tag.
+4. Download the zip from the draft, test it, then publish the draft. Publishing creates the `v1.3` tag.
 
 The workflow can also be started by hand from the Actions tab (**Release** > **Run workflow**).
 
 ## Changes from upstream
 
 Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english) at commit `e205d57` (2 November 2026), counted here as v1.0.
+
+**v1.2** (November 2026)
+
+- New: Mii Maker is translated.
+- New: Game Notes is in English, using the English text Nintendo already includes in the app.
+- The GodMode9 script now also copies Mii Maker and Game Notes.
 
 **v1.1** (November 2026)
 
