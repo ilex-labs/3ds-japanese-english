@@ -15,6 +15,7 @@ supports, validates every string, and writes a ready-to-copy folder:
     out/luma/titles/0004001000020000/romfs/...   (System Settings)
     out/luma/titles/0004001000020700/romfs/...   (Mii Maker)
     out/luma/titles/0004003000008702/romfs/...   (Game Notes)
+    out/luma/titles/0004001000020800/romfs/...   (StreetPass Mii Plaza)
 
 Copy out/luma onto the root of your SD card, merging with the existing
 luma folder.
@@ -27,10 +28,11 @@ import struct
 import sys
 import unicodedata
 
-from tools import darc, msgtool as M
+from tools import bmsm, darc, msgtool as M
 from tools.inputs import app_paths, error_text, scrub
 from tools.ncch import Ncch, NcchError
-from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker, status_bar,
+from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker,
+                          plaza_games, plaza_park, plaza_system, status_bar,
                           system_settings_1, system_settings_2, system_settings_3,
                           system_settings_4, system_settings_5, system_settings_6)
 
@@ -41,6 +43,11 @@ SYSTEM_SETTINGS_TID = 0x0004001000020000
 MII_MAKER_TID = 0x0004001000020700
 GAME_NOTES_TID = 0x0004003000008702
 NOTIFICATIONS_TID = 0x0004003000008E02
+# StreetPass Mii Plaza: the text comes from its update (on the SD card), but
+# Luma looks for the files under the base app's title ID.
+PLAZA_UPDATE_TID = 0x0004000E00020800
+PLAZA_BASE_TID = 0x0004001000020800
+PLAZA_DIR = 'message/JP_Japanese/message/'
 
 # The file each supported app keeps its text in; an .app without it is the
 # app's manual or other content, not the program itself.
@@ -49,6 +56,7 @@ MAIN_FILE = {
     SYSTEM_SETTINGS_TID: 'message_JP_LZ.bin',
     MII_MAKER_TID: 'message/JP_Japanese.arc',
     GAME_NOTES_TID: 'lang/JP_Japanese/message.msbt',
+    PLAZA_UPDATE_TID: PLAZA_DIR + 'system/system.bmsm',
 }
 
 # Fingerprints of the message tables the translation was made against:
@@ -62,6 +70,38 @@ EXPECTED = {
     'game_notes': (61, '1e55f1b218767db3'),
     'game_notes_english': (61, '1e55f1b218767db3'),
 }
+
+# StreetPass Mii Plaza: file -> (module, table, number of entries, sha1 of their labels).
+# The Plaza's own games (Mii Force, Flower Town, ...) are not translated yet.
+PLAZA_FILES = {
+    'system/bg': (plaza_system, 'BG', 32, '88c2b65058d9cd2d'),
+    'system/dialogue': (plaza_system, 'DIALOGUE', 5, 'be98af37bad99e8d'),
+    'system/system': (plaza_system, 'SYSTEM', 103, 'f011ad4db29cb656'),
+    'system/text_sample': (plaza_system, 'TEXT_SAMPLE', 9, '5751dec5eaf6affd'),
+    'park/balloon': (plaza_park, 'BALLOON', 70, '84922bfb26ff17ae'),
+    'park/birthday': (plaza_park, 'BIRTHDAY', 96, '5bfcafddaae2d1ca'),
+    'park/boot': (plaza_system, 'BOOT', 51, '9478c0b7dddbbbb8'),
+    'park/card': (plaza_park, 'CARD', 85, 'a55fecd8b7bc9f31'),
+    'park/celebrate': (plaza_park, 'CELEBRATE', 210, '07fa411815f8b043'),
+    'park/commerce': (plaza_park, 'COMMERCE', 236, '8985871b42d5aaa6'),
+    'park/gate': (plaza_park, 'GATE', 196, '185c84fb84eb5469'),
+    'park/hat': (plaza_park, 'HAT', 207, '10b25cb84a3cf77b'),
+    'park/hat_shop': (plaza_park, 'HAT_SHOP', 17, '5d8d8866590e2a18'),
+    'park/introduction': (plaza_park, 'INTRODUCTION', 126, '975fe54c1616da5a'),
+    'park/map': (plaza_park, 'MAP', 35, '2add3a1e682f5722'),
+    'park/mii_setting': (plaza_park, 'MII_SETTING', 123, 'aae6dcea18c6970e'),
+    'park/option': (plaza_park, 'OPTION', 207, '304eb448ad11bded'),
+    'park/park': (plaza_park, 'PARK', 316, 'e87dce2e9ae87b79'),
+    'park/presen': (plaza_park, 'PRESEN', 778, '886dad663364c60d'),
+    'park/prof': (plaza_park, 'PROF', 77, 'caf5e0e1812d7943'),
+    'park/sound': (plaza_park, 'SOUND', 379, '84e3b3b911f50b4d'),
+    'park/vip_room': (plaza_park, 'VIP_ROOM', 12, '565131e2f9d7d841'),
+    'minigame/mgPiece': (plaza_games, 'PIECE', 132, 'a9287b17248a5993'),
+    'minigame/mgLegend': (plaza_games, 'LEGEND', 274, '184cd03e3cc6b7ab'),
+    'minigame/mgLegend_battle': (plaza_games, 'LEGEND_BATTLE', 371, '43fe160d84f70c90'),
+    'minigame/mgLegend_message': (plaza_games, 'LEGEND_MESSAGE', 458, '176a3ecf6031ad1f'),
+}
+PLAZA_TAG = re.compile(r'\[[^\]\n]*\]')  # [0], [MII_NAME], [System:Color name="red" ] ...
 
 TOKEN = re.compile(r'\{\{[0-9a-f]+\}\}')
 FMT = re.compile(r'%[0-9]*l?[a-zA-Z]')
@@ -102,7 +142,7 @@ class LongLine:
     """A translated line wider than the Japanese it replaces: it may wrap on screen.
     Not a problem, so these are listed in out/long-lines.txt rather than shown."""
     APPS = {'home_menu': 'HOME Menu', 'system_settings': 'System Settings', 'mii_maker': 'Mii Maker',
-            'game_notes': 'Game Notes', 'status_bar': 'Status bar'}
+            'game_notes': 'Game Notes', 'status_bar': 'Status bar', 'plaza': 'StreetPass Mii Plaza'}
 
     def __init__(self, table, index, text, width, jp_width):
         self.table, self.index, self.text = table, index, text
@@ -167,6 +207,34 @@ def validate(name, rows, T, allow_size_codes):
         ew = max(width(l) for l in TOKEN.sub('', en).split('\n')) if en else 0
         if jw and ew > jw + 2:
             warnings.append(LongLine(name, i, TOKEN.sub('', en), ew, jw))
+    return errors, warnings
+
+
+def validate_plaza(name, entries, T):
+    """Return (errors, warnings) for one Plaza file; T is keyed by label, text uses \\n."""
+    errors, warnings = [], []
+    labels = {e[0] for e in entries}
+    for k in T:
+        if k not in labels:
+            errors.append(f'{name} {k}: no such string')
+    for e in entries:
+        label, jp = e[0], e[2].replace('\r\n', '\n')
+        if label not in T:
+            continue
+        en, tag = T[label], f'{name} {label}'
+        if sorted(PLAZA_TAG.findall(jp)) != sorted(PLAZA_TAG.findall(en)):
+            errors.append(f'{tag}: placeholders or formatting differ from the original')
+        icons = lambda s: sorted(c for c in s if 0xE000 <= ord(c) <= 0xF8FF)
+        if icons(jp) != icons(en):
+            errors.append(f'{tag}: button icons differ from the original')
+        if '\r' in en:
+            errors.append(f'{tag}: contains a carriage return (write line breaks as \\n)')
+        if JAPANESE.search(PLAZA_TAG.sub('', en)):
+            warnings.append(f'{tag}: still contains Japanese')
+        jw = max(width(l) for l in PLAZA_TAG.sub('', jp).split('\n'))
+        ew = max(width(l) for l in PLAZA_TAG.sub('', en).split('\n'))
+        if jw and ew > jw + 2:
+            warnings.append(LongLine('plaza', f'{name} {label}', PLAZA_TAG.sub('', en), ew, jw))
     return errors, warnings
 
 
@@ -262,6 +330,41 @@ class Builder:
         return [self.write(GAME_NOTES_TID, 'lang/JP_Japanese/hud.msbt', hud, compress=False),
                 self.write(GAME_NOTES_TID, 'lang/JP_Japanese/message.msbt', message, compress=False)]
 
+    def plaza(self, romfs):
+        print('StreetPass Mii Plaza (update 0004000E00020800)')
+        done = total = 0
+        written = []
+        for rel, (mod, table, count, fp) in PLAZA_FILES.items():
+            path = PLAZA_DIR + rel + '.bmsm'
+            if path not in romfs:
+                raise VersionMismatch(f'plaza: {rel}.bmsm is missing from your update. Not building it.')
+            try:
+                entries, tail = bmsm.read(romfs[path])
+            except bmsm.BmsmError as e:
+                raise VersionMismatch(f'plaza: {rel}.bmsm could not be read ({e}). Not building it.')
+            got = (len(entries), hashlib.sha1('\n'.join(e[0] for e in entries).encode()).hexdigest()[:16])
+            if got != (count, fp):
+                raise VersionMismatch(f'plaza: your update lays out {rel}.bmsm differently than the one the '
+                                      f'translation was made for (yours: {got[0]} strings, fingerprint {got[1]}; '
+                                      f'expected: {count} strings, {fp}). Not building it, to avoid putting '
+                                      f'text in the wrong places.')
+            T = getattr(mod, table)
+            e, w = validate_plaza(rel, entries, T)
+            self.errors += e
+            self.warnings += w
+            for ent in entries:
+                if JAPANESE.search(ent[2]):
+                    total += 1
+                    done += ent[0] in T
+                if ent[0] in T:
+                    ent[2] = T[ent[0]].replace('\n', '\r\n')
+            out = bmsm.write(entries, tail)
+            if bmsm.read(out)[0] != entries:
+                raise BuildError(f'plaza {rel}: output does not re-read cleanly')
+            written.append(self.write(PLAZA_BASE_TID, PLAZA_DIR + rel + '.bmsm', out, compress=False))
+        print(f'  plaza: {done}/{total} strings translated (the Plaza\'s own games are not translated yet)')
+        return written
+
 
 def main():
     # Some Windows consoles can't show every character; never crash on that.
@@ -294,7 +397,7 @@ def main():
                 except (NcchError, struct.error, ValueError):  # unreadable RomFS: treat as not the program
                     romfs = {}
             builders = {HOME_MENU_TID: b.home_menu, SYSTEM_SETTINGS_TID: b.system_settings,
-                        MII_MAKER_TID: b.mii_maker, GAME_NOTES_TID: b.game_notes}
+                        MII_MAKER_TID: b.mii_maker, GAME_NOTES_TID: b.game_notes, PLAZA_UPDATE_TID: b.plaza}
             if tid in MAIN_FILE and MAIN_FILE[tid] in romfs:
                 if tid in seen:
                     print(f'{label}: {tid:016X} was already built from another file, skipped')
@@ -311,6 +414,9 @@ def main():
                 seen.add(tid)
             elif tid in MAIN_FILE:
                 print(f'{label}: {tid:016X} manual or other content, skipped (the program is the larger .app)')
+            elif tid == PLAZA_BASE_TID:
+                print(f'{label}: StreetPass Mii Plaza without its update, skipped (the translation is built from '
+                      f'the update, 0004000E00020800; see README)')
             elif tid == NOTIFICATIONS_TID:
                 print(f'{label}: Notifications is not supported (Luma halts the console on launch; see README)')
             else:

@@ -1,0 +1,163 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+from .common import *
+
+# StreetPass Mii Plaza (updated version), message/system/*.bmsm and
+# message/park/boot.bmsm. Keyed by label. [..] placeholders and markup are
+# filled in by the game and must stay exactly as they are.
+
+PLAZA = 'StreetPass Mii Plaza'
+EXTRA = 'StreetPass Mii Plaza\'s extra data'
+NOSPACE = 'The SD Card is out of space.\n'
+
+# Names of the games in the Plaza, as on North American consoles.
+GAMES = {
+    'mgBtl': 'Warrior\'s Way', 'mgFlo': 'Flower Town', 'mgPzd': 'Monster Manor', 'mgSht': 'Mii Force',
+    'mgFsh': 'Ultimate Angler', 'mgZmb': 'Battleground Z', 'mgCar': 'Slot Car Rivals',
+    'mgTrd': 'Market Crashers', 'mgChf': 'Feed Mii', 'mgNja': 'Ninja Launcher', 'mgExp': 'Mii Trek',
+}
+
+BG = {
+    'home_menuT': 'Press ' + HOME + ' to return to the HOME Menu',
+    'commandRT_01': 'Back',
+    'commandLT_00': 'Select',
+    'gamecoin_txt_00': 'Play Coins',
+    'gamecoin_txt_01': '[0]',
+    'piece_txt_00': 'Pieces Collected',
+    'traveler_txt_00': 'Travelers Met',
+    'traveler_txt_01': '[0]',
+    'braveman_txt_00': 'Heroes Who Helped',
+    'braveman_txt_01': '[0]',
+    'room_txt_00': 'Rooms Cleared',
+    'room_txt_10': 'Rooms Cleared',
+    'room_txt_02': 'All',
+    'cmn_save_d': 'Saving. Do not turn the power off.',
+    'cmn_putback_d': 'Put the stylus back\nin the system!',
+    'cmn_putback_greeting_d': 'Put the stylus back in the system\nand choose your greeting\'s\nexpression with ' + '',
+    'dlg_soundtest_command_00': 'Play',
+    'dlg_soundtest_command_01': 'Stop',
+    'dlg_soundtest_command_02': 'Set as BGM',
+    'dlg_soundtest_command_03': 'Unset BGM',
+    'dlg_map_command_02': 'Go Around Again',
+}
+
+DIALOGUE = {
+    'piece_secret_u': '(Secret!)',
+    'coinT_00': '[0]',
+}
+
+TEXT_SAMPLE = {
+    'test_04': 'This is sample text.',
+    'test_07': 'Korean-region batchim test',
+    'test_08': 'Korean-region batchim test',
+    'test_09': 'Korean-region batchim test',
+}
+
+SYSTEM = {
+    'title_meet_logo': PLAZA,
+    'news_meet': 'Someone is here!',
+    'dlg_save_u': 'Saving.\nDo not turn the power off.',
+    'parental_warning_age': 'This software can\'t be started\ndue to Parental Controls.',
+    'parental_warning_age_to_buy': 'This software can\'t be bought\ndue to Parental Controls.',
+    'parental_warning_number': 'To lift it temporarily,\nenter your PIN.',
+    'dlg_wake_up_u': 'Getting ready.\nDo not turn the power off.',
+    'cap_patch_pre_cofirm': 'Connect to the\nInternet and...',
+    'cap_patch_confirm': PLAZA,
+    'dlg_patch_confirm_big': 'Update StreetPass\nMii Plaza?',
+    'dlg_patch_confirm': 'Checks for and receives update data.',
+    'dlg_patch_confirm_ok': 'Yes!',
+    'dlg_patch_confirm_ng': 'No',
+    'dlg_patch_time': 'This may take\na little while.',
+    'dlg_patch_no_update_pre': 'Sorry!',
+    'dlg_patch_no_update': 'StreetPass Mii Plaza was\nalready up to date',
+    'dlg_patch_update': 'The update is complete.\nRestarting.',
+    'dlg_patch_update_fail': 'No luck...\nPlease try again.',
+    'dlg_patch_game_update': 'The update is complete.',
+    'dlg_spotpass_error_20_u': 'Check the SD Card\'s free\nspace and write-protect\nswitch.',
+    'dlg_spotpass_error_21_u': 'The SD Card is\nrunning low on space.',
+    'dlg_spotpass_error_22_u': 'We recommend managing\nyour data in\nSystem Settings.',
+    'dlg_spotpass_error_24_u': 'The last SpotPass session\ncouldn\'t access\nthe SD Card.',
+    'dlg_spotpass_error_broken_u': 'The SpotPass data on the SD Card\nwas corrupted and has been deleted.',
+    'saveerr_sysext_save_fail': 'Could not save\n' + EXTRA + '.',
+    'saveerr_sysext_save_fail_nospace': NOSPACE + 'Could not save\n' + EXTRA + '.',
+    'saveerr_minigame_no_sdcard': 'Can\'t access the SD Card.',
+    'saveerr_minigame_save_fail': 'Could not save the\n[GAME_TITLE] save data.',
+    'saveerr_minigame_save_fail_nospace': NOSPACE + 'Could not save the\n[GAME_TITLE] save data.',
+    'saveerr_minigame_load_fail': 'Could not load the\n[GAME_TITLE] save data.',
+    'saveerr_minigame_delete_fail': 'Could not reset the\n[GAME_TITLE] save data.',
+    'saveerr_minigame_recreate': 'The [GAME_TITLE] save data\nwas corrupted and has been reset.',
+    'saveerr_minigame_cant_write_nospace': NOSPACE + 'Could not write the\n[GAME_TITLE] save data.\nReturning to the plaza.',
+    'saveerr_minigame_cant_write': 'Could not write the\n[GAME_TITLE] save data.\nReturning to the plaza.',
+    'saveerr_minigame_create_fail_nospace': NOSPACE + 'Could not create the\n[GAME_TITLE] save data.\nReturning to the plaza.',
+    'saveerr_minigame_create_fail': 'Could not create the\n[GAME_TITLE] save data.\nReturning to the plaza.',
+    'saveerr_minigame_cant_access': 'Could not access the\n[GAME_TITLE] save data.\nReturning to the plaza.',
+    'imgdb_err_no_sdcard': 'No SD Card is inserted.',
+    'imgdb_err_sdcard_write_protect': 'The SD Card is write-protected.',
+    'imgdb_err_no_space': 'Not enough space on the SD Card to save.',
+    'imgdb_err_over_image_num': 'The SD Card is full of photos, so this can\'t be saved.',
+    'imgdb_err_sdcard_not_available': 'The SD Card can\'t be recognized.',
+    'imgdb_err_other': 'An SD Card error occurred.',
+    'quebec_age_check_dlg_cap_00': 'Age Check',
+    'quebec_age_check_dlg_notice_00': 'To see the following information,\nyou need to enter your birthday.',
+    'quebec_age_check_dlg_annotation_00': 'Your birthday is only used to check\nyour age. It isn\'t sent to Nintendo.',
+    'quebec_age_check_dlg_report_00': 'Sorry.\nAt your age, you can\'t\ngo any further.',
+    'quebec_age_check_low_cap_00': 'Enter your birthday.',
+    'quebec_age_check_low_decide': 'OK',
+    'quebec_age_check_low_decide_sdw': 'OK',
+    'quebec_age_check_low_cancel': 'Quit',
+    'quebec_age_check_low_cancel_sdw': 'Quit',
+}
+for code, name in GAMES.items():
+    SYSTEM['minigame_title_' + code] = name
+
+BOOT = {
+    'cap_gate_u': 'Caution!',
+    'dlg_gate00_u': 'There are games you haven\'t\nplayed with Miis that came before',
+    'dlg_gate00_u_m': 'There are games you haven\'t\nplayed with Miis that came before',
+    'dlg_gate_sub00_u': 'At the gate, you can no longer play with earlier Miis',
+    'dlg_gate_sub00_u_m': 'At the gate, you can no longer play with earlier Miis',
+    'dlg_choice_go_play_u': 'Play with Earlier Miis',
+    'dlg_choice_go_gate_u': 'Go to the Gate',
+    'dlg_cfl_format_u': 'The Mii Maker save data was\ncorrupted and has been reset.',
+    'dlg_no_mii01_u': 'There are no Miis\nin Mii Maker.',
+    'dlg_no_mii02_u': 'Make a Mii in Mii Maker,\nthen come back!',
+    'dlg_no_mii03_u': '...Promise!',
+    'dlg_no_mii04_u': 'Press ' + HOME + ' to go to\nMii Maker from the\nHOME Menu.',
+    'dlg_meet_format_u': 'The StreetPass Mii Plaza save data\nwas corrupted and has been reset.',
+    'dlg_lost_box_u': 'StreetPass isn\'t\nregistered for this\nsoftware.',
+    'dlg_noce_u': '"StreetPass with other users" is\nrestricted by Parental Controls, so\nStreetPass can\'t be registered.',
+    'dlg_change_noce_u': 'StreetPass was set to "No"\nand has been turned off.',
+    'dlg_sdcard_cant_write_u': 'The SD Card is\nwrite-protected.',
+    'dlg_sdcard_cant_write_end_u': 'Check the SD Card\'s\nwrite-protect switch.',
+    'dlg_extarc_recreate_u': 'The extra data on the SD Card\nwas corrupted and has been reset.',
+    'dlg_savedata_ext_recreate_u': EXTRA[0].upper() + EXTRA[1:] + '\nwas corrupted and has been reset.',
+    'dlg_savedata_ext_create_fail_u': 'Could not create\n' + EXTRA + '.',
+    'dlg_savedata_ext_cant_write_u': 'Can\'t write to\n' + EXTRA + '.',
+    'dlg_savedata_ext_load_fail_u': 'Couldn\'t load\n' + EXTRA + '.',
+    'dlg_save_init_error_u': 'Because of this, StreetPass\nMii Plaza can\'t be played.',
+    'dlg_save_init_error_boss_u': 'SpotPass also\ncan\'t be used.',
+    'dlg_save_init_error_end_u': 'Press ' + HOME + ' to\nreturn to the HOME Menu.',
+    'dlg_extarc_create_fail_nospace_u': NOSPACE + 'Could not create extra data.',
+    'dlg_savedata_ext_create_fail_nospace_u': NOSPACE + 'Could not create\n' + EXTRA + '.',
+    'dlg_savedata_ext_cant_write_nospace_u': NOSPACE + 'Can\'t write to\n' + EXTRA + '.',
+    'dlg_sdcard_nospace_end_u': 'Manage the SD Card\'s data\nin System Settings.',
+    'dlg_update_fail_u_00': 'when you can access\nthe Internet...',
+    'dlg_update_fail_u_01': 'try selecting\nthis!',
+    'dlg_update_cancel': 'I see...',
+    'dlg_update_old_00': 'The latest update data for\nStreetPass Mii Plaza wasn\'t\nfound on the SD Card.',
+    'dlg_update_old_01': 'To play\nStreetPass Mii Plaza, you need\nthe latest update data.',
+    'dlg_update_old_confirm_cap': PLAZA,
+    'dlg_update_old_confirm': 'Make it playable again?',
+    'dlg_update_old_confirm_00': 'Receives the latest update data again.',
+    'dlg_update_old_confirm_ok': 'Yes!',
+    'dlg_update_old_confirm_ng': 'No',
+    'dlg_update_old_success': 'Thanks for waiting!\nYou can play again!',
+    'dlg_update_old_fail': 'No luck...\nPlease try again.',
+    'dlg_patch_from_meet3_00': 'There\'s an update for\na game you bought',
+    'dlg_patch_from_meet3_01': 'I\'ll receive the\nupdate data, so...',
+    'dlg_patch_from_meet3_02': 'please wait\na moment!',
+    'dlg_patch_from_meet3_fail_00': 'Sorry...\nThe update failed.',
+    'dlg_patch_from_meet3_fail_01': 'Until the update is done...',
+    'dlg_patch_from_meet3_fail_02': 'the games you bought\ncan\'t be played.',
+    'dlg_patch_from_meet3_fail_03': 'Please update\nfrom here...',
+    'dlg_patch_from_meet3_fail_04': 'or from each\ngame.',
+}
