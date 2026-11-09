@@ -943,15 +943,15 @@ GUIDE = {  # P_tips.msbt
 
 MAIN = {  # P.msbt
     0: 'Back',  # back
-    1: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # setting
+    1: '{{0e000100000002004600}}Settings{{0f0001000000}}',  # setting
     3: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_00
     4: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_01
     5: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_02
     16: 'frames',  # Finder_Mov_04_00
     17: 'frames',  # Finder_Mov_04_03
     18: 'frames',  # Finder_Mov_04_04
-    23: '{{0e0002000100040000000040}}Outer Camera',  # Finder_03
-    24: '{{0e0002000100040000000040}}Inner Camera',  # Finder_04
+    23: '{{0e0002000100040000000040}}Outer',  # Finder_03
+    24: '{{0e0002000100040000000040}}Inner',  # Finder_04
     26: '{{0e0002000100040000000040}}Photo',  # Finder_07
     27: '{{0e0002000100040000000040}}Video',  # Finder_08
     29: 'OK!',  # Finder_Face_03
@@ -974,13 +974,13 @@ MAIN = {  # P.msbt
     49: 'Low-Light Camera',  # Finder_ModeA_Mov_01
     50: 'A normal camera.',  # Finder_ModeA_Mov_EX_00
     51: 'A camera that works well in the dark.',  # Finder_ModeA_Mov_EX_01
-    53: 'Take Photo',  # Shoot_00
+    53: 'Shoot',  # Shoot_00
     54: '{{0e00020001000400000040c0}}{{0e000000020002008c00}}\ue004\ue005\ue000{{0e000000020002006400}}{{0e00020001000400000040c0}}{{0e000200000002000200}}: Take a photo',  # Shoot_01
-    55: 'Outer Camera',  # Shoot_03
-    56: 'Inner Camera',  # Shoot_04
+    55: 'Outer',  # Shoot_03
+    56: 'Inner',  # Shoot_04
     57: '{{0e000100000002005a00}}View Photos{{0e000100000002006400}}{{0e000100000002004600}}/{{0e000100000002006400}}{{0e000100000002004600}}Videos{{0e000100000002006400}}{{0e000100000002005a00}}{{0e000100000002006400}}',  # Shoot_05
-    58: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # Shoot_06
-    62: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # Set_Title
+    58: '{{0e000100000002004600}}Settings{{0f0001000000}}',  # Shoot_06
+    62: '{{0e000100000002004600}}Settings{{0f0001000000}}',  # Set_Title
     64: 'Save Photos To',  # Set_00
     65: 'Self-Timer Sound',  # Set_01
     66: 'SD Card',  # Set_02
@@ -1024,7 +1024,7 @@ MAIN = {  # P.msbt
     113: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_01
     114: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_02
     116: 'Slideshow',  # Brws_02
-    117: 'Take with Camera',  # Brws_03
+    117: 'Camera',  # Brws_03
     121: 'There are no saved\nphotos or videos.',  # Brws_06
     123: 'Doodle',  # OpePho_00
     124: 'Close',  # OpePho_03
