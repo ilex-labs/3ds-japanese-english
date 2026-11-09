@@ -32,7 +32,7 @@ from tools import bmsm, darc, msgtool as M
 from tools.inputs import app_paths, error_text, scrub
 from tools.ncch import Ncch, NcchError
 from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker,
-                          plaza_games, plaza_park, plaza_system, status_bar,
+                          plaza_park, plaza_system, status_bar,
                           system_settings_1, system_settings_2, system_settings_3,
                           system_settings_4, system_settings_5, system_settings_6)
 
@@ -72,7 +72,8 @@ EXPECTED = {
 }
 
 # StreetPass Mii Plaza: file -> (module, table, number of entries, sha1 of their labels).
-# The Plaza's own games (Mii Force, Flower Town, ...) are not translated yet.
+# Only the Plaza itself: the games inside it (Puzzle Swap, Find Mii and the
+# ones sold in its shop) and the shop's sales pitches for them stay Japanese.
 PLAZA_FILES = {
     'system/bg': (plaza_system, 'BG', 32, '88c2b65058d9cd2d'),
     'system/dialogue': (plaza_system, 'DIALOGUE', 5, 'be98af37bad99e8d'),
@@ -92,14 +93,9 @@ PLAZA_FILES = {
     'park/mii_setting': (plaza_park, 'MII_SETTING', 123, 'aae6dcea18c6970e'),
     'park/option': (plaza_park, 'OPTION', 207, '304eb448ad11bded'),
     'park/park': (plaza_park, 'PARK', 316, 'e87dce2e9ae87b79'),
-    'park/presen': (plaza_park, 'PRESEN', 778, '886dad663364c60d'),
     'park/prof': (plaza_park, 'PROF', 77, 'caf5e0e1812d7943'),
     'park/sound': (plaza_park, 'SOUND', 379, '84e3b3b911f50b4d'),
     'park/vip_room': (plaza_park, 'VIP_ROOM', 12, '565131e2f9d7d841'),
-    'minigame/mgPiece': (plaza_games, 'PIECE', 132, 'a9287b17248a5993'),
-    'minigame/mgLegend': (plaza_games, 'LEGEND', 274, '184cd03e3cc6b7ab'),
-    'minigame/mgLegend_battle': (plaza_games, 'LEGEND_BATTLE', 371, '43fe160d84f70c90'),
-    'minigame/mgLegend_message': (plaza_games, 'LEGEND_MESSAGE', 458, '176a3ecf6031ad1f'),
 }
 PLAZA_TAG = re.compile(r'\[[^\]\n]*\]')  # [0], [MII_NAME], [System:Color name="red" ] ...
 
@@ -362,7 +358,7 @@ class Builder:
             if bmsm.read(out)[0] != entries:
                 raise BuildError(f'plaza {rel}: output does not re-read cleanly')
             written.append(self.write(PLAZA_BASE_TID, PLAZA_DIR + rel + '.bmsm', out, compress=False))
-        print(f'  plaza: {done}/{total} strings translated (the Plaza\'s own games are not translated yet)')
+        print(f'  plaza: {done}/{total} strings translated (the games inside the Plaza are not translated)')
         return written
 
 
