@@ -131,7 +131,7 @@ The script identifies each file from its header, translates it, and checks every
 
 - formatting codes, button icons and `%d`-style placeholders must match the original exactly
 - labels in System Settings can't use added font-size codes (they render blank there)
-- your files must match the system version the translation was made for; if they don't, it stops instead of putting text in the wrong places
+- your files must match the system version the translation was made for; if an app's don't, the build skips that app (and tells you) instead of putting text in the wrong places
 
 If any check fails, nothing is written. Some lines are a little longer than the Japanese and may show on two lines; that's normal. They're listed in `out/long-lines.txt` in case one looks wrong on your console. If you'd like to shorten one yourself, see [Editing translations](#editing-translations).
 
@@ -219,6 +219,7 @@ Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma
 
 - New: Mii Maker is translated.
 - New: Game Notes is in English, using the English text Nintendo already includes in the app.
+- If one app's files are a different system version than the translation was made for, the build now skips just that app instead of stopping altogether.
 - The GodMode9 script now also copies Mii Maker and Game Notes.
 
 **v1.1** (November 2026)

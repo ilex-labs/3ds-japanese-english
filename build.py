@@ -74,6 +74,10 @@ class BuildError(Exception):
     pass
 
 
+class VersionMismatch(BuildError):
+    """One app's text is laid out differently from the version the table was made for."""
+
+
 def merge(*modules):
     out = {}
     for mod in modules:
@@ -178,10 +182,10 @@ class Builder:
         joined = '\n'.join(labels.get(i, '') for i in range(len(strs)))
         got = (len(strs), hashlib.sha1(joined.encode()).hexdigest()[:16])
         if got != EXPECTED[key]:
-            raise BuildError(f'{key}: your system version lays out this text differently than the one '
-                             f'the translation was made for (yours: {got[0]} strings, fingerprint {got[1]}; '
-                             f'expected: {EXPECTED[key][0]} strings, {EXPECTED[key][1]}). '
-                             f'Not building it, to avoid putting text in the wrong places.')
+            raise VersionMismatch(f'{key}: your system version lays out this text differently than the one '
+                                  f'the translation was made for (yours: {got[0]} strings, fingerprint {got[1]}; '
+                                  f'expected: {EXPECTED[key][0]} strings, {EXPECTED[key][1]}). '
+                                  f'Not building it, to avoid putting text in the wrong places.')
 
     def translate(self, key, m, T, allow_size_codes):
         self.check_version(key, m)
@@ -273,7 +277,7 @@ def main():
 
     print(f'3ds-jpn-english v{VERSION}\n')
     b = Builder(args.out)
-    written, seen = [], set()
+    written, seen, mismatched = [], set(), []
     try:
         for path, label in app_paths(args.apps):
             try:
@@ -295,7 +299,15 @@ def main():
                 if tid in seen:
                     print(f'{label}: {tid:016X} was already built from another file, skipped')
                     continue
-                written += builders[tid](romfs)
+                # A version mismatch skips just this app; undo anything it queued.
+                mark = len(b.errors), len(b.warnings), len(b.pending)
+                try:
+                    written += builders[tid](romfs)
+                except VersionMismatch as e:
+                    del b.errors[mark[0]:], b.warnings[mark[1]:], b.pending[mark[2]:]
+                    print(f'  skipped: {scrub(str(e))}')
+                    mismatched.append(f'{tid:016X}')
+                    continue
                 seen.add(tid)
             elif tid in MAIN_FILE:
                 print(f'{label}: {tid:016X} manual or other content, skipped (the program is the larger .app)')
@@ -316,7 +328,12 @@ def main():
             print(f'  ERROR: {e}')
         print(f'\n{len(b.errors)} errors. Nothing was written.')
         return 1
+    mismatch_note = (f'\nSkipped {len(mismatched)} app(s) whose system version differs from the one the '
+                     f'translation was made for: {", ".join(mismatched)}. Please open an issue on GitHub and '
+                     f'paste the lines starting with "skipped:" above.') if mismatched else ''
     if not written:
+        if mismatch_note:
+            print(mismatch_note)
         print('\nNothing built. Pass your dumps folder, or the decrypted .app files of the apps listed in the README.')
         return 1
 
@@ -329,6 +346,8 @@ def main():
         os.remove(report)  # left over from an earlier build
 
     print(f'\nBuilt {len(written)} files with 0 errors.')
+    if mismatch_note:
+        print(mismatch_note)
     if width:
         print(f'{len(width)} lines are a little longer than the Japanese and may show on two lines. '
               f'That\'s normal; they\'re listed in {os.path.join(out, "long-lines.txt")}.')
