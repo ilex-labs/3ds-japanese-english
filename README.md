@@ -4,7 +4,7 @@ English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Gam
 
 > **Maintained fork.** This is a fork of [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which its author released as is and isn't updating. This fork fixes bugs and adds a script and double-click launchers, so you don't have to dump files by hand or use the command line. See [Changes from upstream](#changes-from-upstream).
 
-**Important:** This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card.
+**Important:** This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card ([how it works](#how-it-works)).
 
 **Download:** Get the latest zip file from the [Releases](https://github.com/ilex-labs/3ds-jpn-english/releases) page.
 
@@ -132,13 +132,7 @@ If macOS asks whether Terminal can access a folder, click **Allow**.
 
 When it's done, the `out` folder opens.
 
-The script identifies each file from its header, translates it, and checks every line before writing anything:
-
-- formatting codes, button icons and `%d`-style placeholders must match the original exactly
-- labels in System Settings can't use added font-size codes (they render blank there)
-- your files must match the system version the translation was made for; if an app's don't, the build skips that app (and tells you) instead of putting text in the wrong places
-
-If any check fails, nothing is written. Some lines are a little longer than the Japanese and may show on two lines; that's normal. They're listed in `out/long-lines.txt` in case one looks wrong on your console. If you'd like to shorten one yourself, see [Editing translations](#editing-translations).
+If an app on your console is a different version than the translation was made for, the build skips that app and tells you; the others are still built.
 
 ## 3. Install
 
@@ -203,6 +197,16 @@ Not every app can be patched. LayeredFS needs to find five file-system functions
 The tables are in `translations/`, keyed by string number. Strings use a display form: plain text, plus `{{hex}}` tokens for Nintendo's formatting codes, copied verbatim from the original. `translations/common.py` has named constants for the button icons (`A`, `B`, `HOME`, ...) and common formatting blocks. The StreetPass Mii Plaza tables (`translations/plaza_*.py`) are keyed by label instead, one table per file, and use the game's own `[MII_NAME]`-style placeholders and `[System:Color ...]` markup, which must stay as they are. Run the build after every change; it rejects anything that would break on the console.
 
 ### How it works
+
+The build identifies each file from its header, translates it, and checks every line before writing anything:
+
+- formatting codes, button icons and `%d`-style placeholders must match the original exactly
+- labels in System Settings can't use added font-size codes (they render blank there)
+- your files must match the system version the translation was made for; if an app's don't, the build skips that app (and tells you) instead of putting text in the wrong places
+
+If any check fails, nothing is written. Some lines are a little longer than the Japanese and may show on two lines; that's normal. They're listed in `out/long-lines.txt` in case one looks wrong on your console. If you'd like to shorten one yourself, see [Editing translations](#editing-translations).
+
+The code is split up like this:
 
 - `tools/ncch.py` reads decrypted `.app` (NCCH) files: header, RomFS, and the program code.
 - `tools/msgtool.py` handles LZ11 compression and Nintendo's MSBT text format.
