@@ -153,7 +153,7 @@ To undo the changes, delete these folders from the SD card:
 
 You can do this on a computer, or on the console:
 
-- **With GodMode9:** hold **START** while powering on, go to `[0:] SDCARD` > `luma` > `titles`, highlight a folder, press **X** and confirm. If it asks you to unlock writing, enter the buttons it shows. This works even if the HOME Menu won't start.
+- **With GodMode9:** hold **START** while powering on, go to `[0:] SDCARD` > `luma` > `titles`, highlight a folder, press **X** and confirm. This works even if the HOME Menu won't start.
 - **With 3DShell:** browse to `luma/titles`, highlight a folder, press **X** and choose delete.
 
 **If the HOME Menu won't start:** hold **SELECT** while powering on and turn off **Enable game patching**. The console then starts normally in Japanese. Delete the folders with 3DShell (or GodMode9), then turn **Enable game patching** back on if you use other Luma mods.
