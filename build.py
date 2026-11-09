@@ -8,11 +8,13 @@ Usage:
 
 Pass the folder made by gm9/scripts/dump_system_apps.gm9, or the decrypted
 .app files you dumped from your own console with GodMode9. The script
-identifies each one from its header, translates the HOME Menu and System
-Settings text, validates every string, and writes a ready-to-copy folder:
+identifies each one from its header, translates the text of the apps it
+supports, validates every string, and writes a ready-to-copy folder:
 
     out/luma/titles/0004003000008202/romfs/...   (HOME Menu)
     out/luma/titles/0004001000020000/romfs/...   (System Settings)
+    out/luma/titles/0004001000020700/romfs/...   (Mii Maker)
+    out/luma/titles/0004003000008702/romfs/...   (Game Notes)
 
 Copy out/luma onto the root of your SD card, merging with the existing
 luma folder.
@@ -21,13 +23,14 @@ import argparse
 import hashlib
 import os
 import re
+import struct
 import sys
 import unicodedata
 
 from tools import darc, msgtool as M
 from tools.inputs import app_paths, error_text, scrub
 from tools.ncch import Ncch, NcchError
-from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, status_bar,
+from translations import (home_menu_1, home_menu_2, home_menu_3, home_menu_4, mii_maker, status_bar,
                           system_settings_1, system_settings_2, system_settings_3,
                           system_settings_4, system_settings_5, system_settings_6)
 
@@ -35,7 +38,18 @@ VERSION = '1.1'
 
 HOME_MENU_TID = 0x0004003000008202
 SYSTEM_SETTINGS_TID = 0x0004001000020000
+MII_MAKER_TID = 0x0004001000020700
+GAME_NOTES_TID = 0x0004003000008702
 NOTIFICATIONS_TID = 0x0004003000008E02
+
+# The file each supported app keeps its text in; an .app without it is the
+# app's manual or other content, not the program itself.
+MAIN_FILE = {
+    HOME_MENU_TID: 'message/JP_Japanese/menu_msbt_LZ.bin',
+    SYSTEM_SETTINGS_TID: 'message_JP_LZ.bin',
+    MII_MAKER_TID: 'message/JP_Japanese.arc',
+    GAME_NOTES_TID: 'lang/JP_Japanese/message.msbt',
+}
 
 # Fingerprints of the message tables the translation was made against:
 # (number of strings, sha1 of their internal labels). A different system
@@ -44,6 +58,9 @@ EXPECTED = {
     'home_menu': (589, 'fed6edb76563fa47'),
     'status_bar': (59, '65f7a5c59157e6f6'),
     'system_settings': (1309, '0903fb2ff7a587ce'),
+    'mii_maker': (268, 'c6139d36900b7e03'),
+    'game_notes': (61, '1e55f1b218767db3'),
+    'game_notes_english': (61, '1e55f1b218767db3'),
 }
 
 TOKEN = re.compile(r'\{\{[0-9a-f]+\}\}')
@@ -80,7 +97,8 @@ def width(line):
 class LongLine:
     """A translated line wider than the Japanese it replaces: it may wrap on screen.
     Not a problem, so these are listed in out/long-lines.txt rather than shown."""
-    APPS = {'home_menu': 'HOME Menu', 'system_settings': 'System Settings', 'status_bar': 'Status bar'}
+    APPS = {'home_menu': 'HOME Menu', 'system_settings': 'System Settings', 'mii_maker': 'Mii Maker',
+            'game_notes': 'Game Notes', 'status_bar': 'Status bar'}
 
     def __init__(self, table, index, text, width, jp_width):
         self.table, self.index, self.text = table, index, text
@@ -181,9 +199,9 @@ class Builder:
         print(f'  {key}: {done}/{total} strings translated')
         return out
 
-    def write(self, tid, rel, data):
-        comp = M.lz11_compress(data)
-        if M.lz11_decompress(comp) != data:
+    def write(self, tid, rel, data, compress=True):
+        comp = M.lz11_compress(data) if compress else data
+        if compress and M.lz11_decompress(comp) != data:
             raise BuildError(f'{rel}: compression round-trip failed')
         dst = os.path.join(self.out, 'luma', 'titles', f'{tid:016X}', 'romfs', *rel.split('/'))
         self.pending.append((dst, comp))
@@ -219,6 +237,27 @@ class Builder:
                                      '/./message_mset/JP_Japanese/mset.msbt': mset})
         return [self.write(SYSTEM_SETTINGS_TID, 'message_JP_LZ.bin', new_arc)]
 
+    def mii_maker(self, romfs):
+        print('Mii Maker (0004001000020700)')
+        arc = M.lz11_decompress(romfs['message/JP_Japanese.arc'])
+        edit = self.translate('mii_maker', darc.files(arc)['/./edit.msbt'], mii_maker.T, allow_size_codes=False)
+        new_arc = darc.rebuild(arc, {'/./edit.msbt': edit})
+        return [self.write(MII_MAKER_TID, 'message/JP_Japanese.arc', new_arc)]
+
+    def game_notes(self, romfs):
+        """Game Notes already has English text (for Taiwan): use it in place of the Japanese."""
+        print('Game Notes (0004003000008702)')
+        hud = self.status_bar(romfs['lang/JP_Japanese/hud.msbt'])
+        english = romfs['lang/TW_English/message.msbt']
+        self.check_version('game_notes_english', english)
+        labels, strs = M.msbt_read(english)
+        by_label = {labels[i]: M.to_display(s) for i, s in enumerate(strs)}
+        jp_labels = M.msbt_read(romfs['lang/JP_Japanese/message.msbt'])[0]
+        T = {i: by_label[name] for i, name in jp_labels.items() if by_label.get(name)}
+        message = self.translate('game_notes', romfs['lang/JP_Japanese/message.msbt'], T, allow_size_codes=False)
+        return [self.write(GAME_NOTES_TID, 'lang/JP_Japanese/hud.msbt', hud, compress=False),
+                self.write(GAME_NOTES_TID, 'lang/JP_Japanese/message.msbt', message, compress=False)]
+
 
 def main():
     # Some Windows consoles can't show every character; never crash on that.
@@ -244,15 +283,22 @@ def main():
                 print(f'{label}: skipped ({error_text(e)})')
                 continue
             tid = n.title_id
-            romfs = n.romfs_files() if tid in (HOME_MENU_TID, SYSTEM_SETTINGS_TID) else {}
-            if tid == HOME_MENU_TID and 'message/JP_Japanese/menu_msbt_LZ.bin' in romfs:
-                written += b.home_menu(romfs)
+            romfs = {}
+            if tid in MAIN_FILE:
+                try:
+                    romfs = n.romfs_files()
+                except (NcchError, struct.error, ValueError):  # unreadable RomFS: treat as not the program
+                    romfs = {}
+            builders = {HOME_MENU_TID: b.home_menu, SYSTEM_SETTINGS_TID: b.system_settings,
+                        MII_MAKER_TID: b.mii_maker, GAME_NOTES_TID: b.game_notes}
+            if tid in MAIN_FILE and MAIN_FILE[tid] in romfs:
+                if tid in seen:
+                    print(f'{label}: {tid:016X} was already built from another file, skipped')
+                    continue
+                written += builders[tid](romfs)
                 seen.add(tid)
-            elif tid == SYSTEM_SETTINGS_TID and 'message_JP_LZ.bin' in romfs:
-                written += b.system_settings(romfs)
-                seen.add(tid)
-            elif tid == SYSTEM_SETTINGS_TID:
-                print(f'{label}: System Settings manual content, skipped (the main one is the larger .app)')
+            elif tid in MAIN_FILE:
+                print(f'{label}: {tid:016X} manual or other content, skipped (the program is the larger .app)')
             elif tid == NOTIFICATIONS_TID:
                 print(f'{label}: Notifications is not supported (Luma halts the console on launch; see README)')
             else:
@@ -271,7 +317,7 @@ def main():
         print(f'\n{len(b.errors)} errors. Nothing was written.')
         return 1
     if not written:
-        print('\nNothing built. Pass your dumps folder, or the decrypted HOME Menu and/or System Settings .app files.')
+        print('\nNothing built. Pass your dumps folder, or the decrypted .app files of the apps listed in the README.')
         return 1
 
     b.flush()
