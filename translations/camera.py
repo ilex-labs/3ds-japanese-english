@@ -5,129 +5,6 @@ One table per message file, keyed by string number. {{hex}} tokens are
 formatting and placeholder codes copied from the original and must stay
 as they are."""
 
-MAIN = {  # P.msbt
-    0: 'Back',  # back
-    1: 'Settings',  # setting
-    3: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_00
-    4: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_01
-    5: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_02
-    16: 'frames',  # Finder_Mov_04_00
-    17: 'frames',  # Finder_Mov_04_03
-    18: 'frames',  # Finder_Mov_04_04
-    23: '{{0e0002000100040000000040}}Outer Camera',  # Finder_03
-    24: '{{0e0002000100040000000040}}Inner Camera',  # Finder_04
-    26: '{{0e0002000100040000000040}}Photo',  # Finder_07
-    27: '{{0e0002000100040000000040}}Video',  # Finder_08
-    29: 'OK!',  # Finder_Face_03
-    30: '{{0e000000020002008c00}}{{0e00000003000400ff3200ff}}OK!{{0e00000003000400454039ff}}{{0e000000020002006400}}',  # Finder_Face_03_01
-    31: "Photo failed.\nDon't move until\nthe shutter\nhas clicked.",  # Finder_Face_04
-    34: 'Merge Camera',  # Finder_ModeA_Pho_01
-    35: 'Sparkle Camera',  # Finder_ModeA_Pho_02
-    36: 'Daydream Camera',  # Finder_ModeA_Pho_03
-    37: 'Pinhole Camera',  # Finder_ModeA_Pho_04
-    38: 'Mystery Camera',  # Finder_ModeA_Pho_06
-    39: 'Low-Light Camera',  # Finder_ModeA_Pho_07
-    40: 'A normal camera.',  # Finder_ModeA_Pho_EX_00
-    41: 'A camera that merges two people. Face each other and capture both faces.',  # Finder_ModeA_Pho_EX_01
-    42: 'A camera you decorate by blowing into the mic. Try capturing a face...',  # Finder_ModeA_Pho_EX_02
-    43: 'A dreamy camera.',  # Finder_ModeA_Pho_EX_03
-    44: 'A camera that keeps the center bright and darkens the edges.',  # Finder_ModeA_Pho_EX_04
-    45: "A camera where you never know what photo you'll get.",  # Finder_ModeA_Pho_EX_06
-    46: 'A camera that works well in the dark.',  # Finder_ModeA_Pho_EX_07
-    48: 'Normal Camera',  # Finder_ModeA_Mov_00
-    49: 'Low-Light Camera',  # Finder_ModeA_Mov_01
-    50: 'A normal camera.',  # Finder_ModeA_Mov_EX_00
-    51: 'A camera that works well in the dark.',  # Finder_ModeA_Mov_EX_01
-    53: 'Take Photo',  # Shoot_00
-    54: '{{0e00020001000400000040c0}}{{0e000000020002008c00}}\ue004\ue005\ue000{{0e000000020002006400}}{{0e00020001000400000040c0}}{{0e000200000002000200}}: Take a photo',  # Shoot_01
-    55: 'Outer Camera',  # Shoot_03
-    56: 'Inner Camera',  # Shoot_04
-    57: '{{0e000100000002005a00}}View Photos{{0e000100000002006400}}{{0e000100000002004600}}/{{0e000100000002006400}}{{0e000100000002004600}}Videos{{0e000100000002006400}}{{0e000100000002005a00}}{{0e000100000002006400}}',  # Shoot_05
-    58: 'Settings',  # Shoot_06
-    62: 'Settings',  # Set_Title
-    64: 'Save Photos To',  # Set_00
-    65: 'Self-Timer Sound',  # Set_01
-    66: 'SD Card',  # Set_02
-    67: 'System',  # Set_03
-    68: 'None',  # Set_04
-    69: 'Woof',  # Set_05
-    70: 'Meow',  # Set_06
-    71: '???',  # Set_07
-    72: 'How to Use',  # Set_08
-    73: 'Data Management',  # Set_09
-    74: 'Color Settings',  # Set_10
-    75: 'Show Info',  # Set_11
-    76: 'On',  # Set_11_00
-    77: 'Off',  # Set_11_01
-    79: 'How to Use',  # LctList_00
-    80: 'You can read the how-to\ntips shown so far.',  # LctList_01
-    82: 'Back',  # LctList_02
-    84: 'Data Management',  # Date_00
-    85: 'Here you can manage photos,\nvideos and save data.',  # Date_01
-    87: '{{0e000100000002005000}}Copy All{{0e000100000002006400}}\n{{0e000100000002004e00}}Photos{{0e000100000002006400}}',  # Date_02
-    88: '{{0e000100000002006000}}Delete All{{0e000100000002006400}}',  # Date_03
-    89: 'System to SD Card',  # Date_04
-    90: 'SD Card to System',  # Date_08
-    91: '{{0e000100000002006300}}Reset Save Data{{0e000100000002006400}}',  # Date_05
-    92: 'System',  # Date_06
-    93: '{{0e000100000002006100}}SD Card{{0e000100000002006400}}',  # Date_07
-    99: 'Photos: \nVideos: ',  # Brws_U_01_00
-    100: 'Photos: ',  # Brws_U_01_01
-    101: 'Videos: ',  # Brws_U_01_02
-    102: ' {{0e000300270002000000}}\n {{0e000300270002000100}}',  # Brws_U_02_00
-    103: ' {{0e000300270002000000}}',  # Brws_U_02_01
-    104: ' {{0e000300270002000000}}',  # Brws_U_02_02
-    105: "This photo isn't\nsupported, so it\ncan't be shown.",  # Brws_U_03_00
-    106: "This video isn't\nsupported, so it\ncan't be shown.",  # Brws_U_03_01
-    107: 'There are no photos\nor videos to show.',  # Brws_U_04
-    108: 'Total',  # Brws_U_05
-    109: 'Photos: \nVideos: \nDays shot: ',  # Brws_U_06_00
-    110: 'Photos: \nDays shot: ',  # Brws_U_06_01
-    111: 'Videos: \nDays shot: ',  # Brws_U_06_02
-    112: ' {{0e000300270002000100}}\n {{0e000300270002000200}}\n {{0e000300270002000000}}',  # Brws_U_07_00
-    113: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_01
-    114: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_02
-    116: 'Slideshow',  # Brws_02
-    117: 'Take with Camera',  # Brws_03
-    121: 'There are no saved\nphotos or videos.',  # Brws_06
-    123: 'Doodle',  # OpePho_00
-    124: 'Close',  # OpePho_03
-    125: '{{0e000100000002005a00}}Play with Video{{0e000100000002006400}}',  # OpeMov_00
-    126: 'Close',  # OpeMov_01
-    128: 'Cancel',  # Paint_00
-    129: 'Done',  # Paint_01
-    130: '{{0e000000020002005a00}}Touch the color you want to use with the stylus.{{0e000000020002006400}}',  # Paint_03
-    132: 'Cancel',  # PlayMov_00
-    133: 'Save {{0e000100000002004b00}}Frames{{0e000100000002006400}}',  # PlayMov_01
-    135: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows photos.',  # SShow_00_00
-    136: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows photos.',  # SShow_00_01
-    137: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows videos.',  # SShow_00_02
-    138: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows videos.',  # SShow_00_03
-    139: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}{{0e000100000002005f00}}Shows photos and videos.{{0e000100000002006400}}',  # SShow_00_04
-    140: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}{{0e000100000002005f00}}Shows photos and videos.{{0e000100000002006400}}',  # SShow_00_05
-    141: 'Theme\n\n{{0e000000020002008c00}}Everything{{0e000000020002006400}}',  # SShow_01_00
-    142: 'Theme\n\n{{0e000000020002008c00}}Probably People{{0e000000020002006400}}',  # SShow_01_01
-    143: 'Theme\n\n{{0e000000020002008c00}}Probably Men{{0e000000020002006400}}',  # SShow_01_02
-    144: 'Theme\n\n{{0e000000020002008c00}}Probably Women{{0e000000020002006400}}',  # SShow_01_03
-    145: 'Theme\n\n{{0e000000020002008c00}}Who Are You?{{0e000000020002006400}}',  # SShow_01_04
-    146: 'Theme\n\n{{0e000000020002008c00}}Decorated{{0e000000020002006400}}',  # SShow_01_05
-    147: 'Theme\n\n{{0e000000020002008c00}}Masterpieces{{0e000000020002006400}}',  # SShow_01_06
-    148: 'Theme\n\n{{0e000000020002008c00}}Game Shots{{0e000000020002006400}}',  # SShow_01_07
-    149: 'Theme\n\n{{0e000000020002008c00}}Mii{{0e000000020002006400}}',  # SShow_01_08
-    150: 'Theme\n\n{{0e000000020002008200}}{{0e0005000000040000009841}}{{0e00030000000000}}{{0e00050001000000}}/{{0e0005000000040000009841}}{{0e00030007000000}}{{0e00050001000000}}/{{0e0005000000040000009841}}{{0e00030008000000}}{{0e00050001000000}}{{0e000000020002006400}}',  # SShow_01_09
-    151: 'Theme\n\n{{0e000000020002008200}}{{0e0005000000040000009841}}----{{0e00050001000000}}/{{0e0005000000040000009841}}--{{0e00050001000000}}/{{0e0005000000040000009841}}--{{0e00050001000000}}{{0e000000020002006400}}',  # SShow_01_09_Blnk
-    152: 'Effects',  # SShow_02
-    153: 'Choose Theme',  # SShow_03
-    154: '{{0e000100000002005f00}}Random{{0e000100000002006400}}',  # SShow_04_00
-    155: '{{0e000100000002004e00}}In Order{{0e000100000002006400}}',  # SShow_04_01
-    159: 'The save data is\ncorrupted.\n\nNew save data will\nbe created.',  # ErrBrkn00
-    160: 'OK',  # ErrBrkn_Btn00
-    161: 'Creating new\nsave data...',  # ErrBrkn01
-    166: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play
-    167: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play0
-    168: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play1
-}
-
 DIALOGS = {  # P_dlg.msbt
     1: '{{0e000000020002007800}}{{0e00000003000400ff3200ff}}Recording{{0e00000003000400454039ff}}{{0e000000020002006400}}',  # RecMovie_00
     2: 'Writing to the SD Card was\ntoo slow, so recording\nstopped.',  # RecMovie_01
@@ -1062,4 +939,127 @@ GUIDE = {  # P_tips.msbt
     680: 'If you can\'t find\n"Special Videos," touch\nthe {{0e00000003000400ff3200ff}}red lever{{0e00000003000400454039ff}}.',  # D_123_2
     682: 'Some DSi-compatible\nsoftware uses photos\nsaved in the system.',  # D_124_0
     683: "But some photos, like\ndoodled ones, can't\nbe used.",  # D_124_1
+}
+
+MAIN = {  # P.msbt
+    0: 'Back',  # back
+    1: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # setting
+    3: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_00
+    4: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_01
+    5: '\ue01e{{0e000200000002000200}}{{0e000300270002000000}}{{0e000200000002000200}}',  # Finder_Pho_00_02
+    16: 'frames',  # Finder_Mov_04_00
+    17: 'frames',  # Finder_Mov_04_03
+    18: 'frames',  # Finder_Mov_04_04
+    23: '{{0e0002000100040000000040}}Outer Camera',  # Finder_03
+    24: '{{0e0002000100040000000040}}Inner Camera',  # Finder_04
+    26: '{{0e0002000100040000000040}}Photo',  # Finder_07
+    27: '{{0e0002000100040000000040}}Video',  # Finder_08
+    29: 'OK!',  # Finder_Face_03
+    30: '{{0e000000020002008c00}}{{0e00000003000400ff3200ff}}OK!{{0e00000003000400454039ff}}{{0e000000020002006400}}',  # Finder_Face_03_01
+    31: "Photo failed.\nDon't move until\nthe shutter\nhas clicked.",  # Finder_Face_04
+    34: 'Merge Camera',  # Finder_ModeA_Pho_01
+    35: 'Sparkle Camera',  # Finder_ModeA_Pho_02
+    36: 'Daydream Camera',  # Finder_ModeA_Pho_03
+    37: 'Pinhole Camera',  # Finder_ModeA_Pho_04
+    38: 'Mystery Camera',  # Finder_ModeA_Pho_06
+    39: 'Low-Light Camera',  # Finder_ModeA_Pho_07
+    40: 'A normal camera.',  # Finder_ModeA_Pho_EX_00
+    41: 'A camera that merges two people. Face each other and capture both faces.',  # Finder_ModeA_Pho_EX_01
+    42: 'A camera you decorate by blowing into the mic. Try capturing a face...',  # Finder_ModeA_Pho_EX_02
+    43: 'A dreamy camera.',  # Finder_ModeA_Pho_EX_03
+    44: 'A camera that keeps the center bright and darkens the edges.',  # Finder_ModeA_Pho_EX_04
+    45: "A camera where you never know what photo you'll get.",  # Finder_ModeA_Pho_EX_06
+    46: 'A camera that works well in the dark.',  # Finder_ModeA_Pho_EX_07
+    48: 'Normal Camera',  # Finder_ModeA_Mov_00
+    49: 'Low-Light Camera',  # Finder_ModeA_Mov_01
+    50: 'A normal camera.',  # Finder_ModeA_Mov_EX_00
+    51: 'A camera that works well in the dark.',  # Finder_ModeA_Mov_EX_01
+    53: 'Take Photo',  # Shoot_00
+    54: '{{0e00020001000400000040c0}}{{0e000000020002008c00}}\ue004\ue005\ue000{{0e000000020002006400}}{{0e00020001000400000040c0}}{{0e000200000002000200}}: Take a photo',  # Shoot_01
+    55: 'Outer Camera',  # Shoot_03
+    56: 'Inner Camera',  # Shoot_04
+    57: '{{0e000100000002005a00}}View Photos{{0e000100000002006400}}{{0e000100000002004600}}/{{0e000100000002006400}}{{0e000100000002004600}}Videos{{0e000100000002006400}}{{0e000100000002005a00}}{{0e000100000002006400}}',  # Shoot_05
+    58: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # Shoot_06
+    62: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # Set_Title
+    64: 'Save Photos To',  # Set_00
+    65: 'Self-Timer Sound',  # Set_01
+    66: 'SD Card',  # Set_02
+    67: 'System',  # Set_03
+    68: 'None',  # Set_04
+    69: 'Woof',  # Set_05
+    70: 'Meow',  # Set_06
+    71: '???',  # Set_07
+    72: 'How to Use',  # Set_08
+    73: 'Data Management',  # Set_09
+    74: 'Color Settings',  # Set_10
+    75: 'Show Info',  # Set_11
+    76: 'On',  # Set_11_00
+    77: 'Off',  # Set_11_01
+    79: 'How to Use',  # LctList_00
+    80: 'You can read the how-to\ntips shown so far.',  # LctList_01
+    82: 'Back',  # LctList_02
+    84: 'Data Management',  # Date_00
+    85: 'Here you can manage photos,\nvideos and save data.',  # Date_01
+    87: '{{0e000100000002005000}}Copy All{{0e000100000002006400}}\n{{0e000100000002004e00}}Photos{{0e000100000002006400}}',  # Date_02
+    88: '{{0e000100000002006000}}Delete All{{0e000100000002006400}}',  # Date_03
+    89: 'System to SD Card',  # Date_04
+    90: 'SD Card to System',  # Date_08
+    91: '{{0e000100000002006300}}Reset Save Data{{0e000100000002006400}}',  # Date_05
+    92: 'System',  # Date_06
+    93: '{{0e000100000002006100}}SD Card{{0e000100000002006400}}',  # Date_07
+    99: 'Photos: \nVideos: ',  # Brws_U_01_00
+    100: 'Photos: ',  # Brws_U_01_01
+    101: 'Videos: ',  # Brws_U_01_02
+    102: ' {{0e000300270002000000}}\n {{0e000300270002000100}}',  # Brws_U_02_00
+    103: ' {{0e000300270002000000}}',  # Brws_U_02_01
+    104: ' {{0e000300270002000000}}',  # Brws_U_02_02
+    105: "This photo isn't\nsupported, so it\ncan't be shown.",  # Brws_U_03_00
+    106: "This video isn't\nsupported, so it\ncan't be shown.",  # Brws_U_03_01
+    107: 'There are no photos\nor videos to show.',  # Brws_U_04
+    108: 'Total',  # Brws_U_05
+    109: 'Photos: \nVideos: \nDays shot: ',  # Brws_U_06_00
+    110: 'Photos: \nDays shot: ',  # Brws_U_06_01
+    111: 'Videos: \nDays shot: ',  # Brws_U_06_02
+    112: ' {{0e000300270002000100}}\n {{0e000300270002000200}}\n {{0e000300270002000000}}',  # Brws_U_07_00
+    113: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_01
+    114: ' {{0e000300270002000100}}\n {{0e000300270002000000}}',  # Brws_U_07_02
+    116: 'Slideshow',  # Brws_02
+    117: 'Take with Camera',  # Brws_03
+    121: 'There are no saved\nphotos or videos.',  # Brws_06
+    123: 'Doodle',  # OpePho_00
+    124: 'Close',  # OpePho_03
+    125: '{{0e000100000002005a00}}Play with Video{{0e000100000002006400}}',  # OpeMov_00
+    126: 'Close',  # OpeMov_01
+    128: 'Cancel',  # Paint_00
+    129: 'Done',  # Paint_01
+    130: '{{0e000000020002005a00}}Touch the color you want to use with the stylus.{{0e000000020002006400}}',  # Paint_03
+    132: 'Cancel',  # PlayMov_00
+    133: 'Save {{0e000100000002004b00}}Frames{{0e000100000002006400}}',  # PlayMov_01
+    135: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows photos.',  # SShow_00_00
+    136: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows photos.',  # SShow_00_01
+    137: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows videos.',  # SShow_00_02
+    138: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}Shows videos.',  # SShow_00_03
+    139: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Random order{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}{{0e000100000002005f00}}Shows photos and videos.{{0e000100000002006400}}',  # SShow_00_04
+    140: '{{0e0002000100040000004041}}{{0e000000020002008c00}}Order taken{{0e000000020002006400}}\n\n{{0e000200010004000000e0c0}}{{0e000100000002005f00}}Shows photos and videos.{{0e000100000002006400}}',  # SShow_00_05
+    141: 'Theme\n\n{{0e000000020002008c00}}Everything{{0e000000020002006400}}',  # SShow_01_00
+    142: 'Theme\n\n{{0e000000020002008c00}}Probably People{{0e000000020002006400}}',  # SShow_01_01
+    143: 'Theme\n\n{{0e000000020002008c00}}Probably Men{{0e000000020002006400}}',  # SShow_01_02
+    144: 'Theme\n\n{{0e000000020002008c00}}Probably Women{{0e000000020002006400}}',  # SShow_01_03
+    145: 'Theme\n\n{{0e000000020002008c00}}Who Are You?{{0e000000020002006400}}',  # SShow_01_04
+    146: 'Theme\n\n{{0e000000020002008c00}}Decorated{{0e000000020002006400}}',  # SShow_01_05
+    147: 'Theme\n\n{{0e000000020002008c00}}Masterpieces{{0e000000020002006400}}',  # SShow_01_06
+    148: 'Theme\n\n{{0e000000020002008c00}}Game Shots{{0e000000020002006400}}',  # SShow_01_07
+    149: 'Theme\n\n{{0e000000020002008c00}}Mii{{0e000000020002006400}}',  # SShow_01_08
+    150: 'Theme\n\n{{0e000000020002008200}}{{0e0005000000040000009841}}{{0e00030000000000}}{{0e00050001000000}}/{{0e0005000000040000009841}}{{0e00030007000000}}{{0e00050001000000}}/{{0e0005000000040000009841}}{{0e00030008000000}}{{0e00050001000000}}{{0e000000020002006400}}',  # SShow_01_09
+    151: 'Theme\n\n{{0e000000020002008200}}{{0e0005000000040000009841}}----{{0e00050001000000}}/{{0e0005000000040000009841}}--{{0e00050001000000}}/{{0e0005000000040000009841}}--{{0e00050001000000}}{{0e000000020002006400}}',  # SShow_01_09_Blnk
+    152: 'Effects',  # SShow_02
+    153: 'Choose Theme',  # SShow_03
+    154: '{{0e000100000002005f00}}Random{{0e000100000002006400}}',  # SShow_04_00
+    155: '{{0e000100000002004e00}}In Order{{0e000100000002006400}}',  # SShow_04_01
+    159: 'The save data is\ncorrupted.\n\nNew save data will\nbe created.',  # ErrBrkn00
+    160: 'OK',  # ErrBrkn_Btn00
+    161: 'Creating new\nsave data...',  # ErrBrkn01
+    166: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play
+    167: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play0
+    168: 'Photos taken so far:\n{{0e000300270002000000}}',  # FriendCard_Play1
 }

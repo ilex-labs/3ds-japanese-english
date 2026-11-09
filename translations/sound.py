@@ -5,124 +5,6 @@ One table per message file, keyed by string number. {{hex}} tokens are
 formatting and placeholder codes copied from the original and must stay
 as they are."""
 
-MAIN = {  # S.msbt
-    1: 'Nintendo 3DS Sound',  # C_T_00
-    3: 'Settings',  # C_T_02
-    4: 'Favorites',  # C_T_03
-    6: 'System Memory',  # C_T_05
-    7: 'SD Card',  # C_T_06
-    8: 'StreetPass',  # C_T_07
-    11: 'How to Use',  # C_T_10
-    12: 'Data Management',  # C_T_11
-    13: 'Recent StreetPass Log',  # C_T_12
-    14: 'Top 10 Matches',  # C_T_13
-    15: 'StreetPass Hit Songs',  # C_T_14
-    16: 'StreetPass Top Artists',  # C_T_15
-    23: 'Close',  # C_B_01
-    24: 'Back',  # C_B_02
-    25: 'Settings',  # C_B_03
-    26: '{{0e000100000002005000}}StreetPass{{0e000100000002006400}}',  # C_B_04
-    28: 'Open',  # P_B_00
-    29: 'Start',  # P_B_02
-    30: '{{0e000100000002005000}}Favorites{{0e000100000002006400}}',  # P_B_03
-    31: 'Remove',  # P_B_05
-    34: '{{0e000100000002005000}}Remove All{{0e000100000002006400}}',  # P_B_09
-    36: 'Record & Play with the Mic',  # P_BR_00
-    38: '/SD Card',  # P_BR_02
-    39: 'Shuffle Picks',  # P_BR_03
-    40: 'Resume',  # P_BR_04
-    41: '/Extra Data',  # P_BR_05
-    44: 'Shuffle Everything',  # E_00
-    45: 'Top 10 Played',  # E_01
-    47: "Today's Pick",  # E_03
-    48: '{{0e0003002e0002000000}} Special',  # E_04
-    49: '{{0e0003002e0002000000}} Special',  # E_05
-    50: 'Shuffle all songs',  # E_I_00
-    51: 'Your 10 most\nplayed songs',  # E_I_01
-    53: "The parakeet's\npick of the day",  # E_I_03
-    55: 'A collection for songs\nthat caught your ear',  # E_I_05
-    56: "The parakeet's\nwhimsical collection",  # E_I_06
-    57: '1st',  # E_I_TOP10_01
-    58: '2nd',  # E_I_TOP10_02
-    59: '3rd',  # E_I_TOP10_03
-    60: '4th',  # E_I_TOP10_04
-    61: '5th',  # E_I_TOP10_05
-    62: '6th',  # E_I_TOP10_06
-    63: '7th',  # E_I_TOP10_07
-    64: '8th',  # E_I_TOP10_08
-    65: '9th',  # E_I_TOP10_09
-    66: '10th',  # E_I_TOP10_10
-    68: 'Top 10',  # F_00
-    69: 'Practice',  # F_01
-    70: 'StreetPass',  # F_02
-    71: 'Secret',  # F_03
-    73: 'Favorites {{0e00030000000000}}/{{0e00030007000000}}/{{0e00030008000000}}{{0e0003002e0002000000}}{{0e0003002e0002000100}}',  # F_N_00
-    78: 'There are no images\nto show right now.',  # V_SS_NoPhoto
-    80: 'Play',  # R_B_00
-    81: 'Record',  # R_B_01
-    82: 'Delete',  # R_B_02
-    83: 'Overwrite',  # R_B_05
-    84: 'Copy',  # R_B_06
-    85: 'Move',  # R_B_07
-    88: 'Audio Output',  # S_00
-    89: 'Mono',  # S_B_00_0
-    90: 'Stereo',  # S_B_00_1
-    91: 'Surround',  # S_B_00_2
-    92: 'Touch Sounds',  # S_01
-    93: 'On',  # S_B_01_0
-    94: 'Off',  # S_B_01_1
-    95: 'Color Settings',  # S_B_03
-    96: 'Data Management',  # S_B_04
-    97: 'How to Use',  # S_B_05
-    98: 'You can read the how-to\ntips shown so far.',  # S_I_05
-    103: '{{0e000100000002006300}}Reset Save Data{{0e000100000002006400}}',  # D_B_00
-    104: 'Delete Sounds on This Page',  # D_B_01
-    105: 'Delete All Sounds',  # D_B_02
-    107: 'StreetPass\nMatchmaker',  # CEC_TOP_B_00
-    108: 'StreetPass\nHit Chart',  # CEC_TOP_B_01
-    109: 'StreetPass',  # CEC_TOP_B_02
-    110: 'On',  # CEC_TOP_B_03_0
-    111: 'Off',  # CEC_TOP_B_03_1
-    112: '{{0e00030026000000}} Selection',  # CEC_TOP_00
-    113: 'Put songs in your\n"StreetPass" favorites.',  # CEC_TOP_10
-    114: 'Without song info,\nStreetPass can\'t be used.\n\nPut songs in your\n"StreetPass" favorites.',  # CEC_TOP_15
-    116: "Everyone's Sound Selection\n",  # CEC_MsgDesc
-    118: 'Top 10 Matches',  # CEC_CNT_B_00
-    119: 'Recent StreetPass Log',  # CEC_CNT_B_01
-    120: 'StreetPass Hit Songs',  # CEC_CNT_B_02
-    121: 'StreetPass Top Artists',  # CEC_CNT_B_03
-    122: 'Scroll with \ue07d or \ue077',  # CEC_CNT_B_04
-    123: 'Save as Photo',  # CEC_CNT_B_05
-    124: '{{0e000100000002005000}}Reset{{0e000100000002006400}}',  # CEC_CNT_B_06
-    125: 'No StreetPass\nrecords yet.',  # CEC_CNT_10
-    126: "You haven't passed anyone\nwith similar taste yet.",  # CEC_CNT_15
-    127: 'No hit chart\ninfo yet.',  # CEC_CNT_20
-    128: '{{0e000300270002000000}} songs nominated!\nKeep on StreetPassing.',  # CEC_CNT_21
-    129: '1 song nominated!\nKeep on StreetPassing.',  # CEC_CNT_23
-    130: '{{0e000300270002000000}} artists nominated!\nKeep on StreetPassing.',  # CEC_CNT_22
-    131: '1 artist nominated!\nKeep on StreetPassing.',  # CEC_CNT_24
-    134: 'Music you both like',  # CEC_CNT_32
-    135: '{{0e000300280002000000}}s',  # CEC_CNT_33
-    136: '{{0e0005000000040000004041}}{{0e00030000000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030007000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030008000000}} around {{0e00030009000000}}{{0e00050001000000}}:00',  # CEC_CNT_34
-    140: '{{0e0003002e0002000000}}\u3000and more',  # CEC_CNT_38
-    141: 'No songs to show',  # CEC_CNT_39
-    142: 'Period {{0e0005000000040000004041}}{{0e00030000000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030007000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030008000000}}{{0e00050001000000}} - {{0e0005000000040000004041}}{{0e00030013000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e0003001a000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e0003001b000000}}',  # CEC_CNT_40
-    146: 'Compiled by {{0e00030026000000}}',  # CEC_CNT_43
-    147: 'Participants: {{0e0003002b0002000000}}',  # CEC_CNT_44
-    148: '{{0e0003002c0002000000}}\npoints',  # CEC_CNT_45
-    152: 'You can change the title.',  # SWKB_U
-    153: 'Cancel',  # SWKB_Btn00
-    154: 'OK',  # SWKB_Btn01
-    156: 'OK',  # ErrBrkn_Btn00
-    157: 'The save data is\ncorrupted.\n\nNew save data will\nbe created.',  # ErrBrkn00
-    158: 'Creating new\nsave data...',  # ErrBrkn01
-    160: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play
-    161: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play0
-    162: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play1
-    164: "Mii Maker's save data\nwas corrupted, so it\nhas been reset.",  # CFL_Recover_000
-    165: 'OK',  # CFL_B_Recover_000
-}
-
 DIALOGS = {  # S_dlg.msbt
     2: "The SD Card can't\nbe recognized.",  # SD_Invalid_00
     3: 'OK',  # SD_Invalid_B00
@@ -820,4 +702,122 @@ GUIDE = {  # S_tips.msbt
     654: '{{0e00000003000400454039ff}}{{0e00040001001600140053005f004700750069006400320031005f005500}}{{0e00000003000400454039ff}}With a write-protected\nSD Card, 3DS Sound\ncan only play music, so',  # D_120_2
     655: '{{0e00040001001600140053005f004700750069006400320032005f005500}}turn the power off and\nslide the {{0e00000003000400ff3200ff}}lock switch{{0e00000003000400454039ff}}\nup as shown above.{{0e00000003000400454039ff}}{{0e00000003000400454039ff}}',  # D_120_3
     656: '{{0e00000003000400454039ff}}{{0e00040001001600140053005f004700750069006400320032005f005500}}{{0e00000003000400454039ff}}Thank you very much.\n(bows)',  # D_120_4
+}
+
+MAIN = {  # S.msbt
+    1: 'Nintendo 3DS Sound',  # C_T_00
+    3: 'Settings',  # C_T_02
+    4: 'Favorites',  # C_T_03
+    6: 'System Memory',  # C_T_05
+    7: 'SD Card',  # C_T_06
+    8: 'StreetPass',  # C_T_07
+    11: 'How to Use',  # C_T_10
+    12: 'Data Management',  # C_T_11
+    13: 'Recent StreetPass Log',  # C_T_12
+    14: 'Top 10 Matches',  # C_T_13
+    15: 'StreetPass Hit Songs',  # C_T_14
+    16: 'StreetPass Top Artists',  # C_T_15
+    23: 'Close',  # C_B_01
+    24: 'Back',  # C_B_02
+    25: '{{0e000100000002005000}}Settings{{0f0001000000}}',  # C_B_03
+    26: '{{0e000100000002005000}}StreetPass{{0e000100000002006400}}',  # C_B_04
+    28: 'Open',  # P_B_00
+    29: 'Start',  # P_B_02
+    30: '{{0e000100000002005000}}Favorites{{0e000100000002006400}}',  # P_B_03
+    31: 'Remove',  # P_B_05
+    34: '{{0e000100000002005000}}Remove All{{0e000100000002006400}}',  # P_B_09
+    36: 'Record & Play with the Mic',  # P_BR_00
+    38: '/SD Card',  # P_BR_02
+    39: 'Shuffle Picks',  # P_BR_03
+    40: 'Resume',  # P_BR_04
+    41: '/Extra Data',  # P_BR_05
+    44: 'Shuffle Everything',  # E_00
+    45: 'Top 10 Played',  # E_01
+    47: "Today's Pick",  # E_03
+    48: '{{0e0003002e0002000000}} Special',  # E_04
+    49: '{{0e0003002e0002000000}} Special',  # E_05
+    50: 'Shuffle all songs',  # E_I_00
+    51: 'Your 10 most\nplayed songs',  # E_I_01
+    53: "The parakeet's\npick of the day",  # E_I_03
+    55: 'A collection for songs\nthat caught your ear',  # E_I_05
+    56: "The parakeet's\nwhimsical collection",  # E_I_06
+    57: '1st',  # E_I_TOP10_01
+    58: '2nd',  # E_I_TOP10_02
+    59: '3rd',  # E_I_TOP10_03
+    60: '4th',  # E_I_TOP10_04
+    61: '5th',  # E_I_TOP10_05
+    62: '6th',  # E_I_TOP10_06
+    63: '7th',  # E_I_TOP10_07
+    64: '8th',  # E_I_TOP10_08
+    65: '9th',  # E_I_TOP10_09
+    66: '10th',  # E_I_TOP10_10
+    68: 'Top 10',  # F_00
+    69: 'Practice',  # F_01
+    70: 'StreetPass',  # F_02
+    71: 'Secret',  # F_03
+    73: 'Favorites {{0e00030000000000}}/{{0e00030007000000}}/{{0e00030008000000}}{{0e0003002e0002000000}}{{0e0003002e0002000100}}',  # F_N_00
+    78: 'There are no images\nto show right now.',  # V_SS_NoPhoto
+    80: 'Play',  # R_B_00
+    81: 'Record',  # R_B_01
+    82: 'Delete',  # R_B_02
+    83: '{{0e000100000002005000}}Overwrite{{0f0001000000}}',  # R_B_05
+    84: 'Copy',  # R_B_06
+    85: 'Move',  # R_B_07
+    88: 'Audio Output',  # S_00
+    89: 'Mono',  # S_B_00_0
+    90: 'Stereo',  # S_B_00_1
+    91: 'Surround',  # S_B_00_2
+    92: 'Touch Sounds',  # S_01
+    93: 'On',  # S_B_01_0
+    94: 'Off',  # S_B_01_1
+    95: 'Color Settings',  # S_B_03
+    96: 'Data Management',  # S_B_04
+    97: 'How to Use',  # S_B_05
+    98: 'You can read the how-to\ntips shown so far.',  # S_I_05
+    103: '{{0e000100000002006300}}Reset Save Data{{0e000100000002006400}}',  # D_B_00
+    104: 'Delete Sounds on This Page',  # D_B_01
+    105: 'Delete All Sounds',  # D_B_02
+    107: 'StreetPass\nMatchmaker',  # CEC_TOP_B_00
+    108: 'StreetPass\nHit Chart',  # CEC_TOP_B_01
+    109: 'StreetPass',  # CEC_TOP_B_02
+    110: 'On',  # CEC_TOP_B_03_0
+    111: 'Off',  # CEC_TOP_B_03_1
+    112: '{{0e00030026000000}} Selection',  # CEC_TOP_00
+    113: 'Put songs in your\n"StreetPass" favorites.',  # CEC_TOP_10
+    114: 'Without song info,\nStreetPass can\'t be used.\n\nPut songs in your\n"StreetPass" favorites.',  # CEC_TOP_15
+    116: "Everyone's Sound Selection\n",  # CEC_MsgDesc
+    118: 'Top 10 Matches',  # CEC_CNT_B_00
+    119: 'Recent StreetPass Log',  # CEC_CNT_B_01
+    120: 'StreetPass Hit Songs',  # CEC_CNT_B_02
+    121: 'StreetPass Top Artists',  # CEC_CNT_B_03
+    122: 'Scroll with \ue07d or \ue077',  # CEC_CNT_B_04
+    123: '{{0e000100000002005000}}Save Photo{{0f0001000000}}',  # CEC_CNT_B_05
+    124: '{{0e000100000002005000}}Reset{{0e000100000002006400}}',  # CEC_CNT_B_06
+    125: 'No StreetPass\nrecords yet.',  # CEC_CNT_10
+    126: "You haven't passed anyone\nwith similar taste yet.",  # CEC_CNT_15
+    127: 'No hit chart\ninfo yet.',  # CEC_CNT_20
+    128: '{{0e000300270002000000}} songs nominated!\nKeep on StreetPassing.',  # CEC_CNT_21
+    129: '1 song nominated!\nKeep on StreetPassing.',  # CEC_CNT_23
+    130: '{{0e000300270002000000}} artists nominated!\nKeep on StreetPassing.',  # CEC_CNT_22
+    131: '1 artist nominated!\nKeep on StreetPassing.',  # CEC_CNT_24
+    134: 'Music you both like',  # CEC_CNT_32
+    135: '{{0e000300280002000000}}s',  # CEC_CNT_33
+    136: '{{0e0005000000040000004041}}{{0e00030000000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030007000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030008000000}} around {{0e00030009000000}}{{0e00050001000000}}:00',  # CEC_CNT_34
+    140: '{{0e0003002e0002000000}}\u3000and more',  # CEC_CNT_38
+    141: 'No songs to show',  # CEC_CNT_39
+    142: 'Period {{0e0005000000040000004041}}{{0e00030000000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030007000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e00030008000000}}{{0e00050001000000}} - {{0e0005000000040000004041}}{{0e00030013000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e0003001a000000}}{{0e000200000002000100}}/{{0e000200000002000100}}{{0e0003001b000000}}',  # CEC_CNT_40
+    146: 'Compiled by {{0e00030026000000}}',  # CEC_CNT_43
+    147: 'Participants: {{0e0003002b0002000000}}',  # CEC_CNT_44
+    148: '{{0e0003002c0002000000}}\npoints',  # CEC_CNT_45
+    152: 'You can change the title.',  # SWKB_U
+    153: 'Cancel',  # SWKB_Btn00
+    154: 'OK',  # SWKB_Btn01
+    156: 'OK',  # ErrBrkn_Btn00
+    157: 'The save data is\ncorrupted.\n\nNew save data will\nbe created.',  # ErrBrkn00
+    158: 'Creating new\nsave data...',  # ErrBrkn01
+    160: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play
+    161: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play0
+    162: 'Times music played so far:\n{{0e000300270002000000}}',  # FriendCard_Play1
+    164: "Mii Maker's save data\nwas corrupted, so it\nhas been reset.",  # CFL_Recover_000
+    165: 'OK',  # CFL_B_Recover_000
 }

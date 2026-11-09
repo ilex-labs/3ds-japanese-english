@@ -390,7 +390,8 @@ class Builder:
         for name, (suffix, T) in files.items():
             if name not in inside:
                 raise VersionMismatch(f'{key}: {name} is missing. Not building it.')
-            new[name] = self.translate(f'{key}_{suffix}', inside[name], T, allow_size_codes=False)
+            # These apps shrink long button labels with size codes themselves, so translations may too.
+            new[name] = self.translate(f'{key}_{suffix}', inside[name], T, allow_size_codes=True)
         return [self.write(tid, 'msg/JP_Japanese.LZ', msgarc.rebuild(arc, new))]
 
     def camera(self, romfs):
