@@ -59,7 +59,7 @@ The code is split up like this:
 ## Making a release
 
 1. Raise `VERSION` in `build.py` (for example to `1.3`).
-2. Add the release notes as `.github/release-notes/v1.3.md`, and the changes under [Changes from upstream](README.md#changes-from-upstream).
+2. Add the release notes as `.github/release-notes/v1.3.md`, and the changes under the [Changelog](README.md#changelog).
 3. Push to `main`. GitHub Actions (`.github/workflows/release.yml`) builds the zip with `git archive`, so it contains only files in this repo, checks it, and creates a draft release. Pushing again before publishing updates the same draft.
 4. Download the zip from the draft, test it, then publish the draft. Publishing creates the `v1.3` tag.
 

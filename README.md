@@ -2,8 +2,6 @@
 
 English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Game Notes, StreetPass Mii Plaza, Nintendo 3DS Camera and Nintendo 3DS Sound, without a region change. Nothing on the console itself is changed, and you can undo it by deleting its folders from the SD card.
 
-> **Maintained fork.** This is a fork of [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which its author released as is and isn't updating. This fork fixes bugs and adds a script and double-click launchers, so you don't have to dump files by hand or use the command line. See [Changes from upstream](#changes-from-upstream).
-
 **Important:** This repo contains only the translation tables and the build tools. It does **not** include any Nintendo files. You dump the original files from your own console, and the build script produces the translated versions for your SD card ([how it works](CONTRIBUTING.md#how-it-works)).
 
 **Download:** Get the latest zip file from the [Releases](https://github.com/ilex-labs/3ds-japanese-english/releases) page.
@@ -176,9 +174,9 @@ You can do this on a computer, or on the console:
 
 To report a mistranslation, fix one yourself, or work on the tools, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Changes from upstream
+## Changelog
 
-Upstream is [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english) at commit `e205d57` (2 November 2026), counted here as v1.0.
+v1.0 is the original project, [imphuochuynh/luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english) at commit `e205d57` (2 November 2026).
 
 **v1.2** (November 2026)
 
@@ -208,23 +206,19 @@ The full list is in the commit history.
 
 ## AI disclosure
 
-**Original project.** The upstream README's disclosure, unchanged, by its author [imphuochuynh](https://github.com/imphuochuynh) ("I" and "this README" refer to them and their README):
+This project is built with [Claude](https://claude.ai), Anthropic's AI assistant: the code, the GodMode9 script and the translations. The maintainer decides what to change and tests every change on real Japanese consoles before it's released, but doesn't read Japanese and doesn't review the code line by line. The original project was made the same way.
 
-> This project was built with [Claude](https://claude.ai), Anthropic's AI assistant. Claude wrote the build tools, the validator and the Luma compatibility checker, translated the Japanese text into English, and drafted this README. I directed the project, made the design decisions, and tested every change on my own Japanese New 3DS. That's how the problem labels, the System Settings font-size issue and the Notifications crash were found and fixed.
->
-> The translations are AI-generated and have only been checked on screen, not reviewed line by line by a fluent Japanese speaker. Some wording may be off, especially in screens I rarely see. If you spot a mistranslation, you can fix it in `translations/` and rebuild.
-
-**This fork.** It's made the same way. The code, the GodMode9 script and the translation work are written by Claude. The maintainer decides what to change and tests every change on real Japanese consoles before it's released, but doesn't read Japanese and doesn't review the code line by line. As above, the translations haven't been reviewed by a fluent Japanese speaker; if you spot a mistranslation, please open an issue.
+The translations haven't been reviewed by a fluent Japanese speaker. If you spot a mistranslation, please open an issue (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Credits
 
-- [imphuochuynh](https://github.com/imphuochuynh) for the original project.
+- [imphuochuynh](https://github.com/imphuochuynh) for the original project, [luma-jpn-english](https://github.com/imphuochuynh/luma-jpn-english), which this is based on.
 - [Luma3DS](https://github.com/LumaTeam/Luma3DS) for LayeredFS. `tools/lfs_check.py` ports its symbol search.
 - [GodMode9](https://github.com/d0k3/GodMode9) for dumping and decrypting, and its scripting language.
 - [3dbrew](https://www.3dbrew.org) for documentation of the file formats and title IDs.
 
 ## License
 
-GPLv3, see [LICENSE](LICENSE), the same as upstream.
+GPLv3, see [LICENSE](LICENSE), the same as the original project.
 
 Not affiliated with or endorsed by Nintendo. This repo contains no Nintendo code, data or text; all files are generated from your own console's dumps.
