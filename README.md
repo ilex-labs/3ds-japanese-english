@@ -6,19 +6,46 @@ English menus for a Japanese 3DS: the HOME Menu, System Settings, Mii Maker, Gam
 
 **Download:** Get the latest zip file from the [Releases](https://github.com/ilex-labs/3ds-japanese-english/releases) page.
 
-## What you get
+## Contents
+
+- [What's translated](#whats-translated)
+- [Why not just do a region change?](#why-not-just-do-a-region-change)
+- [What you need](#what-you-need) and [Install Python](#install-python)
+- [1. Copy and decrypt the original files](#1-copy-and-decrypt-the-original-files)
+- [2. Build and install](#2-build-and-install): [Windows](#21a-build-on-windows), [macOS](#21b-build-on-macos), [copy to the SD card](#22-copy-to-the-sd-card), [turn on game patching](#23-turn-on-game-patching)
+- [Undo](#undo)
+- [Known limitations](#known-limitations)
+- [Contributing](#contributing), [Changelog](#changelog), [AI disclosure](#ai-disclosure), [Credits](#credits), [License](#license)
+
+## What's translated
+
+- **HOME Menu:** menus, dialogs, HOME Menu Settings, sleep and power screens, built-in tips
+- **System Settings:** every menu, including Internet setup, Data Management, Parental Controls and first-time setup
+- **Mii Maker** (called Mii Studio on Japanese consoles)
+- **Game Notes**
+- **StreetPass Mii Plaza:** the plaza itself (the gate and the Miis you meet, profiles, the StreetPass map, hats, settings, the Hall of Fame, the shop and the music list), but not the games inside it
+- **Nintendo 3DS Camera:** taking and viewing photos and videos, slideshows, settings, built-in tips
+- **Nintendo 3DS Sound:** music player, voice recorder, StreetPass charts, settings, built-in tips
+- **The top-screen status bar** (Wi-Fi state, date and weekday)
+
+Some things stay in Japanese, including Notifications, games and the on-screen keyboard; see [Known limitations](#known-limitations).
+
+<details>
+<summary><b>Title IDs and how much of each app is covered</b></summary>
 
 | App | Title ID | Status |
 |---|---|---|
-| HOME Menu (menus, dialogs, HOME Menu Settings, sleep/power screens, built-in tips) | `0004003000008202` | 509 of 514 lines (the other 5 are already Latin text) |
-| System Settings (every menu, Internet setup, Data Management, Parental Controls, first-time setup) | `0004001000020000` | 1,049 of 1,053 lines (the other 4 are already English or are prompts for other regions) |
+| HOME Menu | `0004003000008202` | 509 of 514 lines (the other 5 are already Latin text) |
+| System Settings | `0004001000020000` | 1,049 of 1,053 lines (the other 4 are already English or are prompts for other regions) |
 | Mii Maker (called Mii Studio on Japanese consoles) | `0004001000020700` | 233 of 248 lines (the other 15 are already Latin text) |
 | Game Notes | `0004003000008702` | All 33 lines, using the English text Nintendo already includes in the app |
-| StreetPass Mii Plaza (the plaza itself: the gate and the Miis you meet, their profiles, the StreetPass map, hats, settings, the Hall of Fame, the shop and the music list) | `0004001000020800`, built from its update `0004000E00020800` | All 2,990 lines of the plaza. The games inside it stay in Japanese, see [Known limitations](#known-limitations) |
-| Nintendo 3DS Camera (taking and viewing photos and videos, slideshows, settings, the built-in tips) | `0004001000020400` | 1,050 of 1,072 lines (the rest are only numbers and codes, or the words voice-shutter listens for) |
-| Nintendo 3DS Sound (music player, voice recorder, StreetPass charts, settings, the built-in tips) | `0004001000020500` | 808 of 819 lines (the rest are only numbers and codes) |
+| StreetPass Mii Plaza | `0004001000020800`, built from its update `0004000E00020800` | All 2,990 lines of the plaza. The games inside it stay in Japanese, see [Known limitations](#known-limitations) |
+| Nintendo 3DS Camera | `0004001000020400` | 1,050 of 1,072 lines (the rest are only numbers and codes, or the words voice-shutter listens for) |
+| Nintendo 3DS Sound | `0004001000020500` | 808 of 819 lines (the rest are only numbers and codes) |
 | Top-screen status bar (Wi-Fi state, date and weekday) | Covered in HOME Menu, System Settings and Game Notes | Done |
 | Notifications | `0004003000008E02` | **Not supported**, see [Known limitations](#known-limitations) |
+
+</details>
 
 Nintendo's usual US English names are used where they exist (Game Notes, Mii Maker, StreetPass, SpotPass, Play Coins, Super-Stable 3D, Circle Pad, and the names of the Plaza's games, such as Puzzle Swap and Find Mii).
 
