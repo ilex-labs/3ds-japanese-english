@@ -63,7 +63,7 @@ This approach only adds files under `luma/titles/` on the SD card. It works like
 
 </details>
 
-**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Mii Maker, Game Notes, StreetPass Mii Plaza, Nintendo 3DS Camera and Nintendo 3DS Sound were added in v1.2 and tested on the New 2DS LL. Other models should work the same way; if you try one, please let us know in an issue.
+**Tested on** these Japanese consoles: New 3DS (by the original author), New 3DS LL and New 2DS LL. This fork was tested with Luma3DS v13.4 and GodMode9 v2.2.3, the latest releases in November 2026. Mii Maker, Game Notes, StreetPass Mii Plaza, Nintendo 3DS Camera and Nintendo 3DS Sound were added in v1.2 and tested on the New 3DS LL and New 2DS LL. Other models should work the same way; if you try one, please let us know in an issue.
 
 ## Install Python
 
@@ -81,7 +81,7 @@ If you already have Python 3.8 or newer, that works too.
 1. Go to [python.org/downloads](https://www.python.org/downloads/) and click **Download Python**.
 2. Open the downloaded file and click through the installer.
 
-> **Note:** if your Mac ever offers to install "command line developer tools" for `python3`, click **Cancel**. You don't need them; the python.org installer is enough.
+> **Note:** if your Mac  offers to install "command line developer tools" for `python3`, click **Cancel**. You don't need them; the python.org installer is enough.
 
 If the tool later says Python wasn't found, restart your computer and try again.
 
@@ -89,7 +89,7 @@ If the tool later says Python wasn't found, restart your computer and try again.
 
 The zip includes a GodMode9 script that copies the relevant app files from your console to your SD card and decrypts them. It only reads from the console and writes to the `gm9/out` folder on the SD card.
 
-> **Important:** don't share the dumped files or anything the tool builds from them, whether you used the script or dumped them by hand. They contain copyrighted system software from your console.
+> **Important:** don't share the dumped files or anything the tool builds from them. They contain copyrighted system software from your console.
 
 1. Put your SD card in your computer. Copy `gm9/scripts/dump_system_apps.gm9` from the zip into the `gm9/scripts` folder on the SD card (create `scripts` if it isn't there).
 2. Put the SD card back in the console. Hold **START** while powering on to open GodMode9.
@@ -101,10 +101,8 @@ If the script is interrupted, just run it again.
 
 The StreetPass Mii Plaza translation is made for the Plaza's last update (the version with the shop and the paid games), which lives on the SD card. If your console never downloaded that update, the script lists it as not installed and the rest still works.
 
-**Updating from v1.1?** Run the new script once more, since it now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update. The project was renamed, so the files now go to `gm9/out/3ds-japanese-english`; you can delete the old `gm9/out/3ds-jpn-english` folder.
-
 <details>
-<summary><b>Dumping by hand instead</b></summary>
+<summary><b>Dumping apps manually instead</b></summary>
 
 If you'd rather not use the script, or would only like to translate certain apps for some reason, boot up GodMode9 and:
 
@@ -113,6 +111,13 @@ If you'd rather not use the script, or would only like to translate certain apps
 3. In `gm9/out`, highlight each copied `.app`, press **A** > **NCCH image options...** > **Decrypt file**.
 
 Then put the decrypted `.app` files in a folder called `dumps` next to `build.bat` and `build.command`.
+
+</details>
+
+<details>
+<summary><b>Updating from v1.1?</b></summary>
+
+Run the new script once more, since it now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update. The project was renamed, so the files now go to `gm9/out/3ds-japanese-english`; you can delete the old `gm9/out/3ds-jpn-english` folder. This is only needed if you were originally on v1.1.
 
 </details>
 
@@ -126,7 +131,7 @@ Then put the decrypted `.app` files in a folder called `dumps` next to `build.ba
 - **macOS 14 or older:** right-click `build.command`, choose **Open**, then **Open** again.
 - **Or:** open **Terminal**, type `bash` and a space, drag `build.command` into the window and press Return.
 
-If macOS asks whether Terminal can access a folder, click **Allow**.
+> If macOS asks whether Terminal can access a folder, click **Allow**.
 
 When it's done, the `out` folder opens.
 
@@ -160,9 +165,9 @@ You can do this on a computer, or on the console:
 
 ## Known limitations
 
-- **Notifications can't be translated.** Luma can't patch that app on Japanese consoles; trying makes the console stop when it opens.
-- **Only the apps above** are translated, not other system apps.
-- **Games stay in Japanese, including the ones in StreetPass Mii Plaza.** This project translates the console and what you need to use it, not games. Puzzle Swap, Find Mii and the games sold in the Plaza's shop are untouched; the Plaza around them, including the shop rabbit's introduction of each game, is in English. The pre-installed games (AR Games, Face Raiders) aren't translated either.
+- **Notifications cannot be translated.** Luma can't patch that app on Japanese consoles; trying makes the console stop when it opens.
+- **Only the apps listed above** are translated, not other system apps.
+- **Games stay in Japanese, including the mini-games in StreetPass Mii Plaza.** This project translates the console and what you need to use it, not games. Puzzle Swap, Find Mii and the games sold in the Plaza's shop are untouched; the Plaza around them, including the shop rabbit's introduction of each game, is in English. The pre-installed games (AR Games, Face Raiders) aren't translated either.
 - **Some names in StreetPass Mii Plaza are our own**, where we couldn't confirm Nintendo's English one: some characters and places in the shop's game introductions and some music titles.
 - **The on-screen keyboard** (used when you type a name or a password) starts on a Japanese layout and its buttons stay in Japanese. You can switch it to the Latin alphabet.
 - **The electronic manuals** stay in Japanese. The HOME Menu opens them directly, so Luma can't swap their text.
@@ -187,7 +192,7 @@ v1.0 is the original project, [imphuochuynh/luma-jpn-english](https://github.com
 - If one app's files are a different system version than the translation was made for, the build now skips just that app instead of stopping altogether.
 - The GodMode9 script now also copies Mii Maker, Game Notes, Nintendo 3DS Camera, Nintendo 3DS Sound and the StreetPass Mii Plaza update.
 - Renamed to 3ds-japanese-english. The GodMode9 script now saves to `gm9/out/3ds-japanese-english`.
-- Developer notes moved to [CONTRIBUTING.md](CONTRIBUTING.md), with how to report a mistranslation.
+
 
 **v1.1** (November 2026)
 
@@ -208,7 +213,7 @@ The full list is in the commit history.
 
 This project is built with [Claude](https://claude.ai), Anthropic's AI assistant: the code, the GodMode9 script and the translations. The maintainer decides what to change and tests every change on real Japanese consoles before it's released, but doesn't read Japanese and doesn't review the code line by line. The original project was made the same way.
 
-The translations haven't been reviewed by a fluent Japanese speaker. If you spot a mistranslation, please open an issue (see [CONTRIBUTING.md](CONTRIBUTING.md)).
+The translations haven't been reviewed by a fluent Japanese speaker. If you spot a mistranslation or mistake, please open an issue (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Credits
 
