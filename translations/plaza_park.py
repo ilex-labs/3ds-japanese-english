@@ -5,10 +5,10 @@ from .common import *
 # [..] placeholders and markup are filled in by the game; keep them as they are.
 
 GATE = {
-    'now_encountT': 'This StreetPass',
-    'now_encount_sdwT': 'This StreetPass',
-    'unitT': ' hits',
-    'unit_sdwT': ' hits',
+    'now_encountT': 'New StreetPasses',
+    'now_encount_sdwT': 'New StreetPasses',
+    'unitT': ' ',
+    'unit_sdwT': ' ',
     'encountT': 'StreetPass',
     'encount_sdwT': 'StreetPass',
     'totalT': 'Total',
@@ -182,10 +182,10 @@ GATE = {
     'dlg_broken_premium_02': 'Delete Mii Plaza Premium\nfrom "Other" in "Settings"...',
     'dlg_broken_premium_03': 'then receive it again from\nStreetPass Birthday or the VIP Room',
     'newly_arrived_quick': "From [0],\nit's [1]!\n[2]",
-    'now_encount_T_headcount': 'This Visit',
-    'now_encount_sdwT_headcount': 'This Visit',
-    'unitT_headcount': ' Miis',
-    'unit_sdwT_headcount': ' Miis',
+    'now_encount_T_headcount': 'New Visitors',
+    'now_encount_sdwT_headcount': 'New Visitors',
+    'unitT_headcount': ' ',
+    'unit_sdwT_headcount': ' ',
 }
 
 PROF = {
@@ -376,7 +376,7 @@ CARD = {
     'card_my_value_on_u': '"You\'re great" count:',
     'card_my_value_off_u': 'To get ratings, change\nthe setting in "Settings"',
     'card_my_value_zero_u': 'No ratings yet',
-    'card_1time_u': '1',
+    'card_1time_u': '1 hit',
     'card_time_u': '[0] hits',
     'card_1min_u': '1 minute ago',
     'card_min_u': '[0] minutes ago',
@@ -1644,7 +1644,7 @@ PARK = {
     'announce_quick_04': "It's even quicker on\nNew Nintendo 3DS",
     'announce_quick_05': 'Recommended if you have\n100+ StreetPasses!',
     'announce_quick_06': 'Move between plazas\non the Touch Screen',
-    'np_mii_1time': '1',
+    'np_mii_1time': '1 hit',
     'np_mii_time': '[0] hits',
     'np_mii_1min': '1 minute ago',
     'np_mii_min': '[0] minutes ago',
