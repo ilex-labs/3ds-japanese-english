@@ -46,7 +46,7 @@ Some things stay in Japanese, including Notifications, games and the on-screen k
 | Notifications | `0004003000008E02` | **Not supported**, see [Known limitations](#known-limitations) |
 
 </details>
-
+</p>
 Nintendo's usual US English names are used where they exist (Game Notes, Mii Maker, StreetPass, SpotPass, Play Coins, Super-Stable 3D, Circle Pad, and the names of the Plaza's games, such as Puzzle Swap and Find Mii).
 
 ## Why not just do a region change?
