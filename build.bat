@@ -71,7 +71,7 @@ goto end
 echo.
 if not "%RC%"=="0" goto failed
 echo Opening the out folder. Copy the folders inside out\luma\titles
-echo into luma\titles on your SD card (see README, step 3).
+echo into luma\titles on your SD card (see README, step 2.2).
 start "" "%~dp0out"
 goto end
 

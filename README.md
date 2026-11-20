@@ -81,7 +81,7 @@ If you already have Python 3.8 or newer, that works too.
 1. Go to [python.org/downloads](https://www.python.org/downloads/) and click **Download Python**.
 2. Open the downloaded file and click through the installer.
 
-> **Note:** if your Mac  offers to install "command line developer tools" for `python3`, click **Cancel**. You don't need them; the python.org installer is enough.
+> **Note:** if your Mac offers to install "command line developer tools" for `python3`, click **Cancel**. You don't need them; the python.org installer is enough.
 
 If the tool later says Python wasn't found, restart your computer and try again.
 
@@ -121,11 +121,15 @@ Run the new script once more, since it now also copies Mii Maker, Game Notes, Ni
 
 </details>
 
-## 2. Build
+## 2. Build and install
 
-**Windows:** double-click `build.bat`. It uses the `dumps` folder next to it; if there isn't one, it asks you to drag your dumps folder into the window. You can also drag the folder straight onto `build.bat`. If Windows warns you about it, choose **Run** (or **More info** and then **Run anyway**).
+### 2.1a Build on Windows
 
-**macOS:** double-click `build.command`. It uses the `dumps` folder next to it; if there isn't one, it asks you to drag your dumps folder into the window. The first time the script is run, it is likely that macOS will block it because it is a downloaded file:
+Double-click `build.bat`. It uses the `dumps` folder next to it; if there isn't one, it asks you to drag your dumps folder into the window. You can also drag the folder straight onto `build.bat`. If Windows warns you about it, choose **Run** (or **More info** and then **Run anyway**).
+
+### 2.1b Build on macOS
+
+Double-click `build.command`. It uses the `dumps` folder next to it; if there isn't one, it asks you to drag your dumps folder into the window. The first time the script is run, it is likely that macOS will block it because it is a downloaded file:
 
 - **macOS 15 or newer:** click **Done** (not **Move to Trash**). Open **System Settings** > **Privacy & Security**, scroll down, click **Open Anyway** next to `build.command`, then **Open Anyway** again and confirm with your password or Touch ID.
 - **macOS 14 or older:** right-click `build.command`, choose **Open**, then **Open** again.
@@ -133,16 +137,19 @@ Run the new script once more, since it now also copies Mii Maker, Game Notes, Ni
 
 > If macOS asks whether Terminal can access a folder, click **Allow**.
 
-When it's done, the `out` folder opens.
+### 2.2 Copy to the SD card
 
-If an app on your console is a different version than the translation was made for, the build skips that app and tells you; the others are still built.
+When the build is done, the `out` folder opens. If an app on your console is a different version than the translation was made for, the build skips that app and tells you; the others are still built.
 
-## 3. Install
+Copy the folders inside `out/luma/titles` into the `luma/titles` folder on your SD card (create `titles` if it isn't there). Copy just those folders, not the whole `luma` folder, so your Luma settings stay as they are.
 
-1. Copy the folders inside `out/luma/titles` into the `luma/titles` folder on your SD card (create `titles` if it isn't there). Copy just those folders, not the whole `luma` folder, so your Luma settings stay as they are.
-   - **Important:** On macOS, don't drag `luma` onto `luma` in Finder: that replaces the folder and wipes your Luma settings. Copy `out/luma/titles/*` into the SD card's `luma/titles/` instead.
-2. Hold **SELECT** while powering on to open the Luma menu and make sure **Enable game patching** is on.
-3. Eject the SD card properly before taking it out.
+> **Important:** On macOS, don't drag `luma` onto `luma` in Finder: that replaces the folder and wipes your Luma settings. Copy `out/luma/titles/*` into the SD card's `luma/titles/` instead.
+
+Eject the SD card properly before taking it out.
+
+### 2.3 Turn on game patching
+
+Hold **SELECT** while powering on to open the Luma menu and make sure **Enable game patching** is on.
 
 ## Undo
 

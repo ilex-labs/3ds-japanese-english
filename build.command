@@ -86,7 +86,7 @@ rc=$?
 echo
 if [ $rc -eq 0 ]; then
     echo "Opening the out folder. Copy the folders inside out/luma/titles"
-    echo "into luma/titles on your SD card (see README, step 3)."
+    echo "into luma/titles on your SD card (see README, step 2.2)."
     open out
 else
     echo "The build stopped. Nothing was written; read the messages above."
